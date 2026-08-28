@@ -39,7 +39,7 @@ export function generateItineraryTxt(options: TxtExportOptions = {
   // 1. MAIN ITINERARY
   if (options.includeMainItinerary) {
     lines.push('================================================================================');
-    lines.push('第一部分：5 天主打精選行程與餐飲規劃 (含時間、交通與天氣備案)');
+    lines.push('第一部分：6 天主打精選行程與餐飲規劃 (含 4 個完整遊玩日與抵離境 2 個半日)');
     lines.push('================================================================================\n');
 
     MAIN_ITINERARY.forEach((day) => {
