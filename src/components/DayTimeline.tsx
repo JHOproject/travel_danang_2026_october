@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { 
   Clock, MapPin, AlertCircle, Utensils, Car, ShieldAlert,
   ChevronRight, Info, Coffee, Umbrella, Camera, DollarSign,
-  Share2, Check
+  Share2, Check, CalendarCheck, ShieldCheck, AlertTriangle
 } from 'lucide-react';
 import { MAIN_ITINERARY } from '../data/itineraryData';
 import { Activity } from '../types';
@@ -174,7 +174,7 @@ export const DayTimeline: React.FC = () => {
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
               <Clock className="w-3.5 h-3.5 text-slate-400" />
-              六日深度時程規劃
+              六日深度時程規劃與注意事項
             </h3>
             <span className="text-xs text-slate-400">共 {currentDay.activities.length} 個節點</span>
           </div>
@@ -218,6 +218,54 @@ export const DayTimeline: React.FC = () => {
                 <p className="text-sm text-slate-600 leading-relaxed">
                   {act.description}
                 </p>
+
+                {/* Practical Notes & Requirements Panel (Opening Hours, Reservation, Restrictions) */}
+                {(act.openingHours || act.reservation || (act.restrictions && act.restrictions.length > 0)) && (
+                  <div className="mt-3.5 p-3.5 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2 text-xs">
+                    <div className="font-bold text-slate-800 flex items-center gap-1.5 text-[11px] uppercase tracking-wide">
+                      <ShieldCheck className="w-3.5 h-3.5 text-slate-600" />
+                      重要須知與規範
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1 border-t border-slate-200/60 text-slate-700">
+                      {act.openingHours && (
+                        <div className="flex items-start gap-1.5">
+                          <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0 mt-0.5" />
+                          <div>
+                            <span className="font-semibold text-slate-900">營業/營運時間：</span>
+                            <span className="text-slate-600">{act.openingHours}</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {act.reservation && (
+                        <div className="flex items-start gap-1.5">
+                          <CalendarCheck className="w-3.5 h-3.5 text-blue-600 shrink-0 mt-0.5" />
+                          <div>
+                            <span className="font-semibold text-slate-900">預約規定：</span>
+                            <span className="text-slate-600">{act.reservation}</span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {act.restrictions && act.restrictions.length > 0 && (
+                      <div className="pt-1.5 border-t border-slate-200/60">
+                        <div className="flex items-center gap-1 text-amber-800 font-semibold mb-1">
+                          <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                          <span>遊客限制與注意事項：</span>
+                        </div>
+                        <ul className="list-disc list-inside space-y-0.5 text-slate-600 pl-1">
+                          {act.restrictions.map((res, rIdx) => (
+                            <li key={rIdx} className="leading-relaxed">
+                              {res}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Tips and backup flags */}
                 <div className="space-y-2 mt-3 pt-3 border-t border-gray-100">

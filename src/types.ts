@@ -9,6 +9,9 @@ export interface Activity {
   costEstimate?: string;
   weatherBackup?: string; // Rainy day alternative
   mapQuery?: string;
+  reservation?: string; // e.g. "建議提早 3~7 天線上預約訂位"
+  openingHours?: string; // e.g. "08:00 - 17:00 (纜車最晚 17:00 下山)"
+  restrictions?: string[]; // e.g. ["穿著需過膝且有袖 (不可著背心短褲)", "禁止攜帶無人機"]
 }
 
 export interface DayPlan {

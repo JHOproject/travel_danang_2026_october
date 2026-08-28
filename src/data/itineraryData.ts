@@ -43,7 +43,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         category: 'transport',
         tags: ['出關', 'SIM卡', 'Grab'],
         tips: '走出航廈不要搭乘路邊隨意招攬的黑牌車，打開 Grab App 叫車最透明安全，綁定信用卡免找零。',
-        costEstimate: 'Grab 到半島飯店約 120,000~150,000 VND (約 NT$150~190)'
+        costEstimate: 'Grab 到半島飯店約 120,000~150,000 VND (約 NT$150~190)',
+        openingHours: '全天 24 小時營運 (國際航廈入境)',
+        reservation: '出發前 3~7 天需在線上申請並列印越南電子簽證 (E-Visa)，並備妥護照影本與 eSIM',
+        restrictions: ['海關查驗護照效期需滿 6 個月以上', '攜帶現金超過 5,000 美元或等值外幣需申報']
       },
       {
         time: '10:00 - 10:30',
@@ -52,7 +55,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '沿著海岸公路抵達半島飯店，前台辦理預辦入住登記手續並先寄放大型行李，換上輕便透氣衣物與太陽眼鏡。',
         category: 'relax',
         tags: ['飯店Check-in', '海景第一排'],
-        tips: '半島飯店大廳高挑舒適，可先向櫃台索取飯店名片（附越文地址），方便後續搭車出示。'
+        tips: '半島飯店大廳高挑舒適，可先向櫃台索取飯店名片（附越文地址），方便後續搭車出示。',
+        openingHours: '櫃台 24 小時服務；入住時間 14:00 後、退房時間 12:00 前',
+        reservation: '已完成 5 晚海景房預訂 (出示訂房確認單與全體住客護照即可)',
+        restrictions: ['全館客房室內全面禁菸', '頂樓無邊際泳池開放時間為 06:00 - 21:00 (未滿 12 歲兒童需家長陪同)']
       },
       {
         time: '10:45 - 11:30',
@@ -61,7 +67,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '建於 1923 年法國殖民時期的哥德式粉紅教堂，屋頂有招牌避雷針公雞，又稱公雞教堂，是峴港最具代表性的夢幻地標。',
         category: 'sightseeing',
         tags: ['拍照地標', '粉紅建築', '法式風情'],
-        tips: '教堂免費參觀，若正門未開可由側門/後方修道院小門進入拍照，請穿著過膝衣物以示莊重。'
+        tips: '教堂免費參觀，若正門未開可由側門/後方修道院小門進入拍照，請穿著過膝衣物以示莊重。',
+        openingHours: '週一至週六 06:00-11:30、13:30-17:00；週日為彌撒日 (05:00-18:00 間歇彌撒)',
+        reservation: '無需預約 (免費入場參觀)',
+        restrictions: ['【穿著限制】：進入宗教場所請穿著過膝下著，嚴禁無袖背心、細肩帶或過度暴露服裝', '彌撒進行期間請保持肅靜，教堂內部禁止隨意走動拍照或大聲喧嘩']
       },
       {
         time: '11:45 - 12:30',
@@ -71,7 +80,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         category: 'shopping',
         tags: ['換匯金店', '傳統市場', '伴手禮'],
         tips: '美金大面額（100 USD 乾淨無折痕）匯率最優！韓市場二樓衣物記得適度殺價（約開價的 7-8 折）。',
-        weatherBackup: '韓市場為全室內市場，雨天亦非常適合採購。'
+        weatherBackup: '韓市場為全室內市場，雨天亦非常適合採購。',
+        openingHours: '韓市場 06:00 - 19:00；周邊金店換匯 07:30 - 19:00',
+        reservation: '無需預約',
+        restrictions: ['【換匯限制】：金店僅接受 2013 年後發行、無任何污漬、蓋印、破損或折痕的 100 美元新鈔', '市場人潮密集，請隨時注意背包與隨身財物防扒']
       },
       {
         time: '12:30 - 13:45',
@@ -80,7 +92,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '品嚐峴港最著名的鮮甜魚餅米線，湯頭加入南瓜、高麗菜與菠蘿燉煮，鮮美清甜；或是隱藏巷弄中的酥脆炸蛋皮包鮮蝦豬肉的越式煎餅捲生菜！',
         category: 'food',
         tags: ['米其林必比登', '道地平民美食', '越式煎餅'],
-        costEstimate: '每人約 40,000~80,000 VND (約 NT$50~100)'
+        costEstimate: '每人約 40,000~80,000 VND (約 NT$50~100)',
+        openingHours: 'Bún Chả Cá 109: 06:00 - 22:00；Bánh Xèo Bà Dưỡng: 09:30 - 21:30',
+        reservation: '現場排隊入座 (翻桌速度極快，約等候 5~10 分鐘)',
+        restrictions: ['巷弄內店家僅收現金 (VND)，不支援信用卡刷卡']
       },
       {
         time: '14:00 - 15:00',
@@ -89,7 +104,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '坐在韓江畔的越共復古軍綠風格咖啡館，來一杯招牌濃郁香甜的椰子冰沙咖啡 (Cốt Dừa Cà Phê)，吹冷氣消暑。',
         category: 'food',
         tags: ['椰子咖啡', '文青復古', '韓江河畔'],
-        costEstimate: '每杯約 55,000~65,000 VND (約 NT$70~80)'
+        costEstimate: '每杯約 55,000~65,000 VND (約 NT$70~80)',
+        openingHours: '07:00 - 23:30 (每日營運)',
+        reservation: '無需預約 (二樓臨江座位景觀最佳，客滿需稍候)',
+        restrictions: ['室內全面禁菸', '支援現金及國際信用卡']
       },
       {
         time: '15:15 - 17:30',
@@ -98,7 +116,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '辦理房間入住，進房欣賞壯麗的美溪海景。換上泳裝前往飯店高空無邊際泳池，一邊游泳一邊遠眺山茶半島與遼闊海洋。',
         category: 'relax',
         tags: ['半島飯店', '無邊際泳池', '海景放鬆'],
-        tips: '飯店頂樓視野極佳，此時光線最柔和，適合拍海天一線的網美大片。'
+        tips: '飯店頂樓視野極佳，此時光線最柔和，適合拍海天一線的網美大片。',
+        openingHours: '無邊際泳池 06:00 - 21:00；健身房 24 小時開放',
+        reservation: '房客免費使用 (無需另外預約)',
+        restrictions: ['進入泳池需著正式泳裝泳帽，禁止穿著棉質外衣下水', '池畔禁止攜帶玻璃器皿']
       },
       {
         time: '17:30 - 18:30',
@@ -106,7 +127,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '半島飯店正前方沙灘',
         description: '曾被《福布斯》評為「世界六大最美海灘之一」，沙質細白如粉，海浪平緩，赤腳踩在細沙上看著天空轉為藍調晚霞。',
         category: 'relax',
-        tags: ['世界最美沙灘', '夕陽', '赤腳漫步']
+        tags: ['世界最美沙灘', '夕陽', '赤腳漫步'],
+        openingHours: '公共沙灘 24 小時開放 (救生員執勤時間 05:00 - 18:30)',
+        reservation: '無 (自由漫步)',
+        restrictions: ['【海域安全】：18:30 救生員下班後或遇紅旗警示時嚴禁下海游泳', '沙灘全面禁止亂丟垃圾或施放未經許可之煙火']
       },
       {
         time: '18:45 - 20:15',
@@ -116,7 +140,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         category: 'food',
         tags: ['活海鮮大排檔', '炭烤扇貝', '避坑指南'],
         tips: '點海鮮時請店員當場秤重並確認「公斤單價」，通常兩人吃大飽約 600,000~1,000,000 VND (約 NT$750~1250)。',
-        costEstimate: '每人約 350,000~500,000 VND (約 NT$450~650)'
+        costEstimate: '每人約 350,000~500,000 VND (約 NT$450~650)',
+        openingHours: '09:00 - 23:00 (晚餐尖峰 18:30 - 20:00 人潮最多)',
+        reservation: '大排檔採現場挑選入座，建議 18:30 前抵達以確保靠海通風好座位',
+        restrictions: ['【防宰注意】：撈取海鮮時請確認瀝乾水份再上秤，並記下白板上的「每公斤單價 (Kg)」', '店內濕紙巾與小菜通常額外計費 (約 3,000~5,000 VND)，不需使用可請店員收回']
       },
       {
         time: '20:30 - 22:00',
@@ -125,7 +152,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '逛充滿活力的山茶夜市，品嚐烤米紙（越南披薩）、炒冰，步行至龍橋與愛情鎖橋欣賞韓江倒影。',
         category: 'nightlife',
         tags: ['夜市小吃', '龍橋夜景', '愛情鎖橋'],
-        tips: '人潮擁擠時注意隨身包包與手機；龍橋若遇週五/六/日晚間 21:00 會上演壯觀的噴火噴水秀！'
+        tips: '人潮擁擠時注意隨身包包與手機；龍橋若遇週五/六/日晚間 21:00 會上演壯觀的噴火噴水秀！',
+        openingHours: '山茶夜市 18:00 - 23:30 (每日營運)',
+        reservation: '無需預約',
+        restrictions: ['夜市攤販多數僅收現金，請自備小額越南盾 (20k/50k/100k)', '龍橋週末封路管制時間為 20:30 - 21:30 (期間車輛禁止通行)']
       }
     ]
   },
@@ -151,7 +181,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '半島飯店 ➔ 巴拿山 (約 45 分鐘車程)',
         description: '早起享用飯店多樣化越式與西式早餐，08:15 司機於飯店大廳接送直奔巴拿山，避開 9 點過後的大批旅行團。',
         category: 'transport',
-        tags: ['早出發避人潮', '專車包車']
+        tags: ['早出發避人潮', '專車包車'],
+        openingHours: '包車約定 08:15 大廳接駁 (全程等候 8 小時)',
+        reservation: '需提前 1 天於 Klook / Grab / 飯店櫃台預約專車',
+        restrictions: ['包車超時費用約 100,000 VND / 小時', '攜帶雨具、防風薄外套與好走的運動鞋']
       },
       {
         time: '08:45 - 09:15',
@@ -160,7 +193,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '搭乘名列金氏世界紀錄「單線最長、落差最大」的登山纜車，腳下是壯麗的熱帶原始森林與飛瀑，20 分鐘直達山腰。',
         category: 'sightseeing',
         tags: ['世界最長纜車', '雲海絕景'],
-        costEstimate: '門票+纜車+午餐Buffet套票約 1,250,000 VND (約 NT$1,560)'
+        costEstimate: '門票+纜車+午餐Buffet套票約 1,250,000 VND (約 NT$1,560)',
+        openingHours: '纜車營運 08:00 - 17:00 (最晚下山纜車 17:00)',
+        reservation: '【強烈建議預購】：建議提早 1~3 天在線上 (Klook/KKday) 預購 QR code 電子票，直接掃碼入園省去現場排隊購票 30 分鐘',
+        restrictions: ['巴拿山園區嚴禁攜帶外食與熟食進入 (隨身水瓶除外)', '懼高症或耳壓敏感者請坐纜車內側並做吞嚥動作']
       },
       {
         time: '09:15 - 10:30',
@@ -169,7 +205,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '從峭壁間伸出兩隻長滿青苔的巨型石雕佛手，托起懸空的金色緞帶拱橋。漫步於雲霧飄渺間，宛如置身希臘神話！隨後散步至 Le Jardin D’Amour 九大主題愛情花園與百年百年酒窖。',
         category: 'sightseeing',
         tags: ['世界級地標', '佛手金橋', '網美必訪'],
-        tips: '早晨 9:30 前遊客最少，拍照背景最乾淨；若遇山間晨霧，反而更添仙氣。'
+        tips: '早晨 9:30 前遊客最少，拍照背景最乾淨；若遇山間晨霧，反而更添仙氣。',
+        openingHours: '08:00 - 17:00 (09:00 - 11:30 為人潮尖峰)',
+        reservation: '憑巴拿山通票即可進入',
+        restrictions: ['黃金橋上嚴禁攀爬欄杆或倚靠懸空邊緣', '橋面禁止使用大型腳架或飛行未經核准之空拍機/無人機']
       },
       {
         time: '10:45 - 12:30',
@@ -177,7 +216,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '巴拿山山頂法國村',
         description: '搭乘山頂小火車前往「月亮城堡」，體驗 4D/5D 飛翔影院；回到法國村，在充滿哥德式尖頂教堂、石磚噴泉廣場與街頭藝人雜耍的歐洲中古世紀街道間漫遊。',
         category: 'sightseeing',
-        tags: ['法式建築', '月亮城堡', '街頭表演']
+        tags: ['法式建築', '月亮城堡', '街頭表演'],
+        openingHours: '法國村全區 08:30 - 17:00；街頭遊行表演通常於 10:30 & 14:00 登場',
+        reservation: '無需預約 (包含於通票內)',
+        restrictions: ['山頂石板路高低起伏，嚴禁穿細高跟鞋或易滑拖鞋']
       },
       {
         time: '12:30 - 13:45',
@@ -185,7 +227,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '巴拿山餐廳區',
         description: '享用包含越式烤肉、鮮蝦春捲、西式牛排、沙拉甜點及現烤料理的上百道多國美食自助午餐。',
         category: 'food',
-        tags: ['國際Buffet', '現烤BBQ', '吃到飽']
+        tags: ['國際Buffet', '現烤BBQ', '吃到飽'],
+        openingHours: '自助餐供餐時間 11:00 - 15:00',
+        reservation: '建議購買含 Buffet 之套票 (持票券 QR Code 於餐廳門口核銷入座)',
+        restrictions: ['用餐時間限制約 90 分鐘', '取餐請維持禮貌排隊，食物禁止外帶打包']
       },
       {
         time: '14:00 - 15:30',
@@ -194,7 +239,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '體驗自己掌控煞車的刺激高山滑車（沿著山崖疾速俯衝），若天候降雨可直接轉入東南亞最大室內遊樂園 Fantasy Park，免費暢玩跳樓機、攀岩、恐龍公園與各類街機。',
         category: 'relax',
         tags: ['軌道滑車', '室內遊樂園', '雨天備案'],
-        weatherBackup: 'Fantasy Park 全為室內空調建築，雨天體驗完全不受影響。'
+        weatherBackup: 'Fantasy Park 全為室內空調建築，雨天體驗完全不受影響。',
+        openingHours: 'Fantasy Park 08:30 - 17:00；Alpine Coaster 08:30 - 16:30 (遇大雨暫停營運)',
+        reservation: '室內設施全數免費暢玩 (蠟像館需另付 100k VND)',
+        restrictions: ['【高山滑車限制】：身高未滿 120cm 兒童嚴禁單獨搭乘（需由成人陪同）、孕婦與心臟病患者禁止搭乘', '滑車下衝時請保持 25 公尺以上安全車距，全程禁止鬆開煞車把手']
       },
       {
         time: '16:00 - 17:30',
@@ -202,7 +250,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '巴拿山 ➔ 半島飯店',
         description: '搭纜車穿過雲層下山，包車司機於出口處等候接回飯店，梳洗休息放鬆雙腿。',
         category: 'transport',
-        tags: ['下山', '舒適回程']
+        tags: ['下山', '舒適回程'],
+        openingHours: '巴拿山下山最後纜車時間為 17:00',
+        reservation: '已與包車司機約定 16:30~17:00 於停車場接送',
+        restrictions: ['請務必於 16:45 前抵達山頂纜車站，避免錯過末班下山纜車']
       },
       {
         time: '18:00 - 19:30',
@@ -212,7 +263,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         category: 'relax',
         tags: ['越式按摩', '熱石精油', '極致放鬆'],
         tips: '熱門 SPA 請提前 1~2 天在線上或透過飯店櫃台預約，享受迎賓茶點與術後優格。',
-        costEstimate: '90 分鐘全身按摩約 450,000~600,000 VND (約 NT$560~750)'
+        costEstimate: '90 分鐘全身按摩約 450,000~600,000 VND (約 NT$560~750)',
+        openingHours: '09:00 - 22:30 (最晚預約進場時間 21:00)',
+        reservation: '【強烈需預約】：熱門傍晚時段（18:00-20:00）極易客滿，必須提早 1~2 天透過官方 LINE/WhatsApp 或官網預約',
+        restrictions: ['孕婦或近期手術者請於填寫諮詢表時主動告知芳療師', '按摩前 30 分鐘請避免暴飲暴食或大量飲酒']
       },
       {
         time: '19:45 - 21:15',
@@ -221,7 +275,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '在法式殖民庭院中品嚐極致精緻的炭烤大蝦、甘蔗蝦與香茅烤魚；或是去吃全越南評價最高、現做手工布拉塔起司 (Burrata) 與蟹肉義大利麵的傳奇名店 Pizza 4P’s。',
         category: 'food',
         tags: ['米其林推薦', '庭園私廚', 'Pizza 4Ps'],
-        costEstimate: '每人約 250,000~400,000 VND (約 NT$310~500)'
+        costEstimate: '每人約 250,000~400,000 VND (約 NT$310~500)',
+        openingHours: 'Madame Hạnh: 10:00 - 22:00；Pizza 4P’s: 10:00 - 22:30',
+        reservation: '【特別提醒】：Pizza 4P’s 為峴港最難訂餐廳，強烈建議出發前 3~7 天透過官方網站或 Google Maps 線上訂位！Madame Hạnh 建議提早 1 天預訂',
+        restrictions: ['如預約 Pizza 4P’s，請準時抵達，逾時保留 15 分鐘', '支援多元行動支付與各大國際信用卡 (Visa/Master/JCB)']
       },
       {
         time: '21:30 - 22:30',
@@ -230,7 +287,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '點一杯招牌調酒，居高臨下俯瞰璀璨的韓江七彩大橋與峴港百萬夜景。',
         category: 'nightlife',
         tags: ['高空酒吧', '百萬夜景', '微醺調酒'],
-        costEstimate: '調酒每杯約 150,000~220,000 VND (約 NT$190~275)'
+        costEstimate: '調酒每杯約 150,000~220,000 VND (約 NT$190~275)',
+        openingHours: 'Brilliant Top Bar: 16:00 - 23:00；Sky36: 18:00 - 02:00',
+        reservation: '週五/週六臨江景觀第一排沙發建議提前 1 天電話或粉專訂位',
+        restrictions: ['【服裝與年齡限制】：Novotel Sky36 嚴禁著拖鞋、男士無袖背心或運動短褲；入場需年滿 18 歲 (請備妥護照影本或照片備查)']
       }
     ]
   },
@@ -258,7 +318,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         category: 'sightseeing',
         tags: ['大理石山', '天然洞穴', '佛教聖地'],
         tips: '可搭乘透明景觀電梯上山，節省體力，電梯票單程 15,000 VND。',
-        costEstimate: '門票+電梯約 55,000 VND (約 NT$70)'
+        costEstimate: '門票+電梯約 55,000 VND (約 NT$70)',
+        openingHours: '景區開放 07:00 - 17:30 (登山電梯營運至 17:00)',
+        reservation: '現場購票即可 (可買門票+單程電梯聯票)',
+        restrictions: ['【地形與服裝限制】：洞穴與山頂階梯經年潮濕濕滑，嚴禁穿著高跟鞋或皮鞋，務必穿著抓地力佳之防滑平底鞋/運動鞋', '洞內階梯陡峭，年長者或行動不便者建議至玄空洞即折返，避免攀登望江台之極陡坡']
       },
       {
         time: '09:15 - 10:45',
@@ -266,7 +329,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '五行山水山深處',
         description: '走進巨大的天然喀斯特溶洞「玄空洞」，陽光透過頂部天然天井如聖光般灑落在佛像與香爐上，神秘而震撼。接著登上望江台眺望峴港海岸線。',
         category: 'sightseeing',
-        tags: ['聖光絕景', '鐘乳石洞', '文化遺產']
+        tags: ['聖光絕景', '鐘乳石洞', '文化遺產'],
+        openingHours: '07:00 - 17:30 (上午 09:30 - 11:00 聖光天井照射角度最美)',
+        reservation: '無需預約',
+        restrictions: ['玄空洞供奉佛像，請勿大聲喧嘩或攀爬神龕石雕', '洞內光線較暗，留意頭頂鐘乳石滴水與腳下青苔']
       },
       {
         time: '11:15 - 12:30',
@@ -275,7 +341,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '品嚐使用會安千年古井水製作的 Q 彈高樓麵 (Cao Lầu)、透亮似花瓣的白玫瑰 (Bánh Bao Bánh Vạc) 與酥脆香濃的越式炸餛飩。',
         category: 'food',
         tags: ['會安三大名菜', '高樓麵', '白玫瑰'],
-        costEstimate: '每人約 150,000~250,000 VND (約 NT$190~310)'
+        costEstimate: '每人約 150,000~250,000 VND (約 NT$190~310)',
+        openingHours: '10:00 - 22:00 (全日無休)',
+        reservation: '現場入座 (尖峰時段 12:00~13:00 稍候約 10 分鐘，亦可提前電話預訂)',
+        restrictions: ['支援現金與信用卡支付', '古鎮老宅內禁止吸菸']
       },
       {
         time: '13:00 - 14:45',
@@ -285,7 +354,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         category: 'sightseeing',
         tags: ['旋轉竹籃船', '水椰林', '水上陀螺', '釣螃蟹'],
         tips: '容易暈車暈船者可請船夫「輕輕搖 (No spin)」，喜歡刺激者給點小費船夫會轉得超瘋狂！',
-        costEstimate: '竹籃船體驗約 120,000~150,000 VND (約 NT$150~190)'
+        costEstimate: '竹籃船體驗約 120,000~150,000 VND (約 NT$150~190)',
+        openingHours: '07:30 - 17:30 (日間隨到隨搭，每趟約 45~50 分鐘)',
+        reservation: '【建議預約】：建議透過一日包車司機代訂或線上預約合作船家，避免現場遭非正規野雞船漫天喊價',
+        restrictions: ['【乘船安全與健康限制】：上船必須全程穿著救生衣！心臟病、嚴重眩暈、頸椎脊椎不適或孕婦請在上船前主動告知船夫「No Spin (不要高速旋轉)」', '旋轉特技小費行情約 20,000~50,000 VND / 船 (自由給予)']
       },
       {
         time: '15:15 - 17:30',
@@ -294,7 +366,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '漫步於 16-19 世紀保存完好的黃色老洋房街道，參觀日本商船建造的「來遠橋 (日本橋)」、華麗的「福建會館」與「進記古宅」。登上著名咖啡館「Faifo Coffee」三樓頂樓露台，點一杯滴漏咖啡，俯瞰一片連綿起伏的古城黑瓦屋頂。',
         category: 'sightseeing',
         tags: ['世界文化遺產', '法式黃牆', 'FaifoCoffee', '日本橋'],
-        tips: '隨手來一杯會安最著名的「Mót 草本消暑涼茶 (Nước Mót)」，以荷花、香茅、檸檬與肉桂熬煮，每杯僅 15,000 VND！'
+        tips: '隨手來一杯會安最著名的「Mót 草本消暑涼茶 (Nước Mót)」，以荷花、香茅、檸檬與肉桂熬煮，每杯僅 15,000 VND！',
+        openingHours: '會安古鎮全天開放；售票古宅會館 07:30 - 17:30；Faifo Coffee 07:00 - 21:30',
+        reservation: '無需預約；古蹟參觀可於入口售票亭購買會安古鎮聯票 (120,000 VND 可任選 5 處古蹟會館)',
+        restrictions: ['【車輛管制】：每日 15:00 - 21:30 古鎮核心區實施全步行管制，所有汽機車嚴禁進入', '進入福建會館與古宅宗祠請勿穿著過於暴露之無袖背心或短褲']
       },
       {
         time: '17:30 - 18:30',
@@ -303,7 +378,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: 'Bale Well 是隱密排隊名店，入座不用點餐，直接端上滿桌現烤炭火豬肉肉串、炸春捲、越式煎蛋餅與大量新鮮生菜香草，店員會親切教你包出生菜春捲巨塔沾特調花生芝麻醬！',
         category: 'food',
         tags: ['炭烤豬肉串', '道地平民名店', '無限續菜'],
-        costEstimate: '套餐每人約 150,000 VND (約 NT$190)'
+        costEstimate: '套餐每人約 150,000 VND (約 NT$190)',
+        openingHours: 'Bale Well: 10:00 - 22:00；The Cargo Club: 08:00 - 22:30',
+        reservation: 'Bale Well 為街巷名店免預約直接入座；The Cargo Club 二樓臨河陽台座建議提前 1 天電話預約',
+        restrictions: ['Bale Well 僅收現金 (VND)，生菜香草與米紙可免費無限續加']
       },
       {
         time: '18:45 - 20:15',
@@ -312,7 +390,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '入夜後的會安瞬間被五彩斑斕的絲綢燈籠點亮，恍若掉進神隱少女的世界。搭乘木舟行駛在秋盆河上，親手將載滿心願的紙水燈放入波光粼粼的河中。下船後逛逛燈籠夜市，拍照留念。',
         category: 'nightlife',
         tags: ['秋盆河扁舟', '放水燈許願', '絲綢燈籠海'],
-        tips: '搭船放水燈公定價約 150,000~200,000 VND/艘 (可坐 2-4 人，含水燈)，上船前務必先確認價格。'
+        tips: '搭船放水燈公定價約 150,000~200,000 VND/艘 (可坐 2-4 人，含水燈)，上船前務必先確認價格。',
+        openingHours: '秋盆河遊船 17:30 - 21:30；燈籠夜市 18:00 - 22:00',
+        reservation: '現場碼頭售票亭購票即可 (公定售票處最安心)',
+        restrictions: ['【乘船法規】：上船必須全程穿好救生衣，嚴禁在晃動木船上站立或大幅度肢體動作', '燈籠攤販拍照若未購買燈籠，部分店家會收取 10,000 VND 拍照費 (可先徵詢店家同意)']
       },
       {
         time: '20:30 - 21:15',
@@ -320,7 +401,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '會安 ➔ 峴港半島飯店 (約 40 分鐘車程)',
         description: '在車上吹著冷氣小憩，返回半島飯店，享受安靜舒適的濱海睡眠。',
         category: 'transport',
-        tags: ['專車回程']
+        tags: ['專車回程'],
+        openingHours: '包車約定 20:30 於古鎮外圍接送點上車',
+        reservation: '已與包車司機約定好會安接送地點 (通常在古鎮外圍停車場，因古鎮內禁行汽車)',
+        restrictions: ['請準時抵達上車地點，避免耽誤回程時間']
       }
     ]
   },
@@ -347,7 +431,13 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '造訪建於山海之巔的靈應寺，瞻仰全東南亞最高（高 67 公尺、相當於 30 層樓）的白玉觀音立像，面向大海庇佑峴港漁民。從寺廟廣場可 180 度俯瞰整個美溪沙灘月牙形弧線與市區天際線。',
         category: 'sightseeing',
         tags: ['東南亞最高觀音', '山海絕景', '靈應寺'],
-        tips: '靈應寺免門票，周圍偶爾有野生短尾猿猴出沒，切勿餵食或手持塑膠袋避免被猴子搶奪。'
+        tips: '靈應寺免門票，周圍偶爾有野生短尾猿猴出沒，切勿餵食或手持塑膠袋避免被猴子搶奪。',
+        openingHours: '06:00 - 18:00 (每日免費開放參觀)',
+        reservation: '無需預約',
+        restrictions: [
+          '【穿著規定】：進入正殿祭拜必須穿著過膝下著與有袖上衣，嚴禁背心短褲、拖鞋，進入殿內需脫帽脫鞋',
+          '【野生動物警戒】：周遭野生猴群具攻擊搶奪性，嚴禁手持塑膠袋、食物或主動觸摸餵食'
+        ]
       },
       {
         time: '11:30 - 13:00',
@@ -356,7 +446,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '品嚐牛骨長時間熬煮出的甘甜清湯、現燙嫩牛肉片佐新鮮九層塔、鵝蒂與青檸檬；或是到法式老宅風格的 LUK LAK 品嚐烤鴨胸與香茅烤豬排。',
         category: 'food',
         tags: ['經典牛肉河粉', '九層塔青檸', '米其林主廚'],
-        costEstimate: '每人約 60,000~200,000 VND (約 NT$75~250)'
+        costEstimate: '每人約 60,000~200,000 VND (約 NT$75~250)',
+        openingHours: 'Phở Bắc 63: 06:00 - 21:00；LUK LAK: 10:30 - 22:00',
+        reservation: 'Phở Bắc 63 免預約現場排隊；LUK LAK 週末午餐建議提前 1 天線上或電話預約',
+        restrictions: ['Phở Bắc 63 僅收現金，生辣椒醬與九層塔香菜可依個人口味添加']
       },
       {
         time: '13:30 - 15:30',
@@ -365,7 +458,13 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '午後回到飯店換上泳裝，在私人海灘躺椅上聽海浪聲喝新鮮椰子水，或在海面上租借 SUP 立槳衝浪，享受熱帶海濱度假樂趣。',
         category: 'relax',
         tags: ['SUP立槳', '沙灘躺椅', '新鮮椰子'],
-        costEstimate: 'SUP 租借每小時約 150,000~200,000 VND (約 NT$190~250)'
+        costEstimate: 'SUP 租借每小時約 150,000~200,000 VND (約 NT$190~250)',
+        openingHours: '沙灘水上活動業者營運時間 08:00 - 17:30 (天候不佳或浪大時暫停)',
+        reservation: '沙灘水上俱樂部現場登記租借即可',
+        restrictions: [
+          '【水上安全規範】：租借 SUP 或水上摩拖車必須強制穿著救生衣，嚴禁滑出浮球安全警戒線',
+          '飲酒後或有心血管疾病者嚴禁進行劇烈水上運動'
+        ]
       },
       {
         time: '15:45 - 17:30',
@@ -374,7 +473,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '走進通透無邊的水池玻璃屋咖啡館 43 Factory，體驗精品單品咖啡手沖與虹吸萃取，了解越南身為世界第二大咖啡出口國的深厚咖啡文化。',
         category: 'food',
         tags: ['精品手沖', '玻璃水池建築', '文青咖啡'],
-        costEstimate: '每杯約 90,000~130,000 VND (約 NT$110~160)'
+        costEstimate: '每杯約 90,000~130,000 VND (約 NT$110~160)',
+        openingHours: '06:30 - 22:30 (每日營運)',
+        reservation: '無需預約 (中庭景觀座位採先到先得)',
+        restrictions: ['室內全面禁菸', '水池造景請注意腳步，嚴禁跨越水池護欄']
       },
       {
         time: '18:00 - 20:00',
@@ -383,7 +485,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '在溫馨明亮的 Thia Go 餐廳享用濃郁的順化牛肉粉 (Bún Bò Huế)、越式生春捲 (Gỏi Cuốn)、薑蔥炒海瓜子與菠蘿炒飯。',
         category: 'food',
         tags: ['精緻越菜', '生春捲', '清爽健康'],
-        costEstimate: '每人約 150,000~250,000 VND (約 NT$190~310)'
+        costEstimate: '每人約 150,000~250,000 VND (約 NT$190~310)',
+        openingHours: '10:00 - 22:00',
+        reservation: '建議提早 1 天訂位 (晚餐時段外國觀光客極多)',
+        restrictions: ['支援現金與信用卡支付', '素食者可提供全素餐點與無五辛調味']
       },
       {
         time: '20:30 - 21:45',
@@ -392,7 +497,13 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '每逢週五、週六、週日晚上 21:00 準時登場！巨型金色鋼龍會連續噴出三輪熾熱烈火，隨後再噴出漫天水柱，全場遊客歡呼鼓掌！觀賞後沿著江畔散步感受熱鬧氣氛。',
         category: 'nightlife',
         tags: ['週日限定', '21點噴火噴水', '峴港象徵'],
-        tips: '【最佳觀賞點】：龍橋東側（靠近龍頭）地面廣場或龍橋旁的 DHC 碼頭。噴水時站在風下處會被淋濕，記得帶傘或稍作後退！'
+        tips: '【最佳觀賞點】：龍橋東側（靠近龍頭）地面廣場或龍橋旁的 DHC 碼頭。噴水時站在風下處會被淋濕，記得帶傘或稍作後退！',
+        openingHours: '表演時間 21:00 準時開始 (表演約 15 分鐘)',
+        reservation: '免費公共空間觀賞；若搭乘韓江遊船需提前 1 天於碼頭預訂船票 (約 150k VND)',
+        restrictions: [
+          '【交通管制警示】：週五/六/日 20:30 - 21:30 龍橋雙向全線封路禁止汽機車進入，請提早步行抵達',
+          '【防潑水注意】：噴水環節下風處水霧極大，相機、手機等電子產品請務必做好防潑水保護'
+        ]
       }
     ]
   },
@@ -419,7 +530,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '行經被《國家地理雜誌》評選為「人生必去的 50 個地方之一」的海雲嶺公路。在山頂制高點的海雲關古城門停留，一側是壯闊的南中國海與靈姑灣 (Lang Co Bay)，另一側是險峻青翠的山巒。',
         category: 'sightseeing',
         tags: ['國家地理雜誌推薦', '天下第一雄關', '海雲嶺'],
-        tips: '公路轉角處視野絕佳，停留 20 分鐘喝杯山頂咖啡拍照。'
+        tips: '公路轉角處視野絕佳，停留 20 分鐘喝杯山頂咖啡拍照。',
+        openingHours: '全天開放',
+        reservation: '順化全日包車需提前 1~2 天確認預約 (含司機過路費與油資)',
+        restrictions: ['山路蜿蜒多彎，容易暈車者請於出發前半小時服用暈車藥', '山頂碉堡攀爬時請踩穩石階注意防滑']
       },
       {
         time: '10:30 - 12:30',
@@ -428,7 +542,13 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '越南阮朝（1802-1945）的皇宮與政治中心，名列聯合國教科文組織世界文化遺產。參觀巍峨的午門、太和殿、世廟、九鼎與閱是堂宮廷戲院，感受與北京紫禁城風格相近卻又融合法越特色的帝國輝煌。',
         category: 'sightseeing',
         tags: ['世界文化遺產', '順化紫禁城', '末代王朝阮朝'],
-        costEstimate: '門票約 200,000 VND (約 NT$250)'
+        costEstimate: '門票約 200,000 VND (約 NT$250)',
+        openingHours: '07:30 - 17:30 (最後入場時間 17:00)',
+        reservation: '現場售票處購票即可 (可買皇城+啟定陵優惠聯票 300,000 VND)',
+        restrictions: [
+          '【世界遺產古蹟與服裝限制】：進入太和殿、世廟等供奉帝王殿堂嚴禁著無袖背心、超短褲短裙，嚴禁戴帽戴墨鏡',
+          '宮殿室內文物全面禁止觸摸，禁止使用空拍機與大型閃光燈'
+        ]
       },
       {
         time: '12:30 - 13:45',
@@ -437,7 +557,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '順化是牛肉粉與鹽咖啡的誕生地！品嚐帶有香茅辣油香氣的順化粗米線、滷牛腱與豬血糕；餐後喝一杯微鹹綿密奶蓋融合濃縮滴漏黑咖啡的「鹽咖啡」，口感層次極度驚艷！',
         category: 'food',
         tags: ['順化牛肉粉', '鹽咖啡發源地', '驚艷奶蓋'],
-        costEstimate: '每人約 60,000~90,000 VND (約 NT$75~115)'
+        costEstimate: '每人約 60,000~90,000 VND (約 NT$75~115)',
+        openingHours: 'Bà Tuyết: 06:00 - 21:00；鹽咖啡創始店: 06:30 - 22:00',
+        reservation: '現場入座 (順化傳統小吃店無需預約)',
+        restrictions: ['在地平價小吃店僅收現金，辣油與香茅醬辣度較高，怕辣者可請店家少放辣椒油 (Ít cay)']
       },
       {
         time: '14:00 - 15:30',
@@ -446,7 +569,13 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '順化建築最精雕細琢的皇陵，依山而建，外觀呈現黑灰色的哥德法式城堡風，內部主殿則以數以萬計的彩色碎陶瓷片與彩色玻璃拼貼出栩栩如生的龍形浮雕與壁畫，視覺極度震撼！',
         category: 'sightseeing',
         tags: ['馬賽克拼貼藝術', '中法合璧皇陵', '極致奢華'],
-        costEstimate: '門票約 150,000 VND (約 NT$190)'
+        costEstimate: '門票約 150,000 VND (約 NT$190)',
+        openingHours: '07:30 - 17:30',
+        reservation: '持順化聯票或現場購票即可',
+        restrictions: [
+          '【步道限制】：進入皇陵需爬 127 級較陡之石階，年長者可攜帶登山杖輔助',
+          '主殿啟成殿內禁止飲食、禁止使用腳架與閃光燈'
+        ]
       },
       {
         time: '15:30 - 17:30',
@@ -454,7 +583,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '順化 ➔ 峴港',
         description: '回程走海雲隧道（車程縮短至 1.5 小時），在車上稍作補眠。',
         category: 'transport',
-        tags: ['快速隧道回程']
+        tags: ['快速隧道回程'],
+        openingHours: '海雲隧道 24 小時全天通車',
+        reservation: '包車全程服務',
+        restrictions: ['回程若想臨時改走海雲關山路可向司機告知（車程約多 30 分鐘）']
       },
       {
         time: '17:45 - 19:30',
@@ -463,7 +595,13 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '峴港最大、商品最齊全的大型量販超市，明碼標價免殺價，提供免費封箱打包服務。必買清單：越南帶皮鹽焗腰果、中原傳奇咖啡 (G7/Sang Tao)、Archcafé 椰子卡布奇諾、Agridetox 芒果乾、越南第一排糖、MAROU 頂級黑巧克力、Pho 即食河粉包。',
         category: 'shopping',
         tags: ['伴手禮掃貨', '腰果咖啡果乾', '免費裝箱'],
-        tips: '二樓有專門的特產試吃區與免費紙箱/膠帶打包台，方便直接託運！'
+        tips: '二樓有專門的特產試吃區與免費紙箱/膠帶打包台，方便直接託運！',
+        openingHours: '08:00 - 22:00 (每日營業)',
+        reservation: '無需預約',
+        restrictions: [
+          '超市提供免費封箱服務（含紙箱與膠帶，可直接作託運行李使用）',
+          '支援國際信用卡、Apple Pay 及越南盾現金支付；生鮮肉品禁止攜帶入境台灣'
+        ]
       },
       {
         time: '19:45 - 21:30',
@@ -472,7 +610,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '在最後一個夜晚犒賞自己，坐在面江露台欣賞韓江夜色，品嚐精釀啤酒、生蠔拼盤、低溫慢煮牛排與香煎鱸魚佐百香果醬，為這趟旅程留下深刻美好的回憶。',
         category: 'food',
         tags: ['韓江夜景', '精緻創意料理', '浪漫晚餐'],
-        costEstimate: '每人約 350,000~550,000 VND (約 NT$440~690)'
+        costEstimate: '每人約 350,000~550,000 VND (約 NT$440~690)',
+        openingHours: '11:00 - 14:00、17:00 - 22:00',
+        reservation: '【建議預約】：臨江戶外露台景觀座位建議提前 1~3 天線上或電話預訂',
+        restrictions: ['餐費通常加收 5% 服務費與 8% 增值稅 (VAT)', '支援各大國際信用卡']
       }
     ]
   },
@@ -498,7 +639,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '峴港半島飯店',
         description: '悠閒享用飯店現煮熱騰騰河粉與法式可頌，在無邊際泳池旁吹著海風拍照，最後一眼俯瞰湛藍的美溪海景。',
         category: 'relax',
-        tags: ['慢活早餐', '泳池打卡', '收拾行李']
+        tags: ['慢活早餐', '泳池打卡', '收拾行李'],
+        openingHours: '早餐供餐 06:30 - 10:00；泳池 06:00 - 21:00',
+        reservation: '房客憑房號享用自助早餐',
+        restrictions: ['10:00 早餐收餐，請把握用餐時間']
       },
       {
         time: '10:30 - 11:00',
@@ -506,7 +650,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '半島飯店前台',
         description: '辦理退房手續，將大件行李寄放於前台櫃台，取得行李條後輕便出門進行最後的市區探索。',
         category: 'relax',
-        tags: ['退房', '行李寄存']
+        tags: ['退房', '行李寄存'],
+        openingHours: '飯店退房截止時間為 12:00',
+        reservation: '櫃台直接辦理',
+        restrictions: ['若需延後退房 (Late Check-out) 需提前向櫃台詢問並可能產生額外費用', '請妥善保管行李收執聯，提領行李時憑券領取']
       },
       {
         time: '11:15 - 12:30',
@@ -515,7 +662,13 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '建於 1915 年的黃色法式優雅建築，是全世界收藏占婆王國（4-13 世紀）砂岩與赤陶雕刻最完整的博物館。欣賞印度教濕婆神、迦樓羅神鳥、舞王與梵天石雕，感受古中越神秘的千年底蘊。',
         category: 'sightseeing',
         tags: ['世界最大占婆館', '法式古蹟建築', '千年雕刻藝術'],
-        costEstimate: '門票約 60,000 VND (約 NT$75)'
+        costEstimate: '門票約 60,000 VND (約 NT$75)',
+        openingHours: '07:30 - 17:00 (每日開放，最後售票 16:30)',
+        reservation: '現場購票即可',
+        restrictions: [
+          '【展品保護規範】：千年砂岩石雕文物嚴禁觸摸或攀坐拍照',
+          '館內全面禁止使用相機閃光燈與自拍棒，大型後背包需寄放於入口處'
+        ]
       },
       {
         time: '12:45 - 14:00',
@@ -524,7 +677,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '炭火現烤的焦香豬肉肉丸與五花肉片，浸泡在酸甜清爽的魚露溫高湯中，搭配整盤生菜、香草與米線一口咬下，層次豐富，是令人回味無窮的越南經典！',
         category: 'food',
         tags: ['炭火烤肉米線', '生菜春捲', '越南必吃告別餐'],
-        costEstimate: '每人約 60,000~120,000 VND (約 NT$75~150)'
+        costEstimate: '每人約 60,000~120,000 VND (約 NT$75~150)',
+        openingHours: 'Bún Chả Hà Nội 59: 09:30 - 21:00；Bếp Cuốn: 10:30 - 22:00',
+        reservation: 'Bún Chả 現場入座即可；Bếp Cuốn 建議提前預約',
+        restrictions: ['Bún Chả Hà Nội 59 僅收現金，備有英文菜單方便點餐']
       },
       {
         time: '14:15 - 14:45',
@@ -532,7 +688,10 @@ export const MAIN_ITINERARY: DayPlan[] = [
         location: '半島飯店大廳',
         description: '在江邊或飯店大廳喝杯冰咖啡，憑行李條領回大件行李，叫 Grab 直奔機場。',
         category: 'transport',
-        tags: ['領取行李', '準備出發']
+        tags: ['領取行李', '準備出發'],
+        openingHours: '全天營運',
+        reservation: '無需預約',
+        restrictions: ['清點隨身物品、護照、錢包與充電器，避免遺留在飯店']
       },
       {
         time: '15:00 - 17:30',
@@ -541,7 +700,13 @@ export const MAIN_ITINERARY: DayPlan[] = [
         description: '提早 2.5 小時抵達機場辦理登機證與退稅手續（如有在指定免稅店消費滿額），通過安檢後可在候機室採買免稅商品，17:30 搭機起飛，帶著滿滿的回憶返抵台灣！',
         category: 'transport',
         tags: ['國際航班', '依依不捨', '平安返台'],
-        tips: '峴港機場安檢與海關排隊速度視班機密集度而定，15:00-15:30 抵達最為從容充裕。'
+        tips: '峴港機場安檢與海關排隊速度視班機密集度而定，15:00-15:30 抵達最為從容充裕。',
+        openingHours: '機場 24 小時營運 (航班起飛前 3 小時開櫃報到、起飛前 50 分鐘關櫃)',
+        reservation: '請提前完成航空公司網路預辦登機 (Online Check-in) 以節省排隊時間',
+        restrictions: [
+          '【海關與入境台灣法規】：嚴禁攜帶任何肉製品（含生熟豬肉、肉乾、含肉泡麵等）入境台灣，違者重罰 20 萬至 100 萬元！',
+          '手提行李液體單瓶不得超過 100ml，行動電源必須隨身攜帶、嚴禁託運'
+        ]
       }
     ]
   }

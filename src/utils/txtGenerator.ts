@@ -64,6 +64,15 @@ export function generateItineraryTxt(options: TxtExportOptions = {
         lines.push(`\n  (${idx + 1}) [${act.time}] ${act.title}`);
         lines.push(`      地點：${act.location}`);
         lines.push(`      內容：${act.description}`);
+        if (act.openingHours) {
+          lines.push(`      營業時間：${act.openingHours}`);
+        }
+        if (act.reservation) {
+          lines.push(`      預約規定：${act.reservation}`);
+        }
+        if (act.restrictions && act.restrictions.length > 0) {
+          lines.push(`      限制與須知：${act.restrictions.join('；')}`);
+        }
         if (act.costEstimate) {
           lines.push(`      預估花費：${act.costEstimate}`);
         }
