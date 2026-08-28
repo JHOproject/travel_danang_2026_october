@@ -36,7 +36,7 @@ export const BudgetCalculator: React.FC = () => {
             不同玩法花費分析 ＆ 互動預算計算機
           </h2>
           <p className="text-sm text-slate-500 mt-1.5">
-            我們針對「小資輕裝」、「經典玩家」與「奢華尊榮」三種檔次進行細項拆解（包含機票、半島飯店住宿、包車、門票、SPA 與美食）。
+            針對「小資輕裝」、「舒適品質」與「尊榮享受」三種預算檔次進行細項拆解（包含機票、半島飯店住宿、包車、門票、SPA 與美食）。
           </p>
         </div>
 
@@ -178,7 +178,7 @@ export const BudgetCalculator: React.FC = () => {
               <span className="flex items-center gap-1.5 font-bold text-slate-800"><Hotel className="w-4 h-4 text-orange-500" /> 2. 5晚半島飯店 (雙人分攤)</span>
               <span className="font-mono font-bold text-slate-900">NT$ {(selectedTier.breakdown.hotel * numberOfTravelers).toLocaleString()}</span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.hotel.toLocaleString()} (含每日豐盛海景自助早餐)</p>
+            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.hotel.toLocaleString()} (含每日海景自助早餐)</p>
           </div>
 
           <div className="bg-[#F8F9FA] p-4 rounded-xl border border-gray-100">
@@ -186,7 +186,7 @@ export const BudgetCalculator: React.FC = () => {
               <span className="flex items-center gap-1.5 font-bold text-slate-800"><Car className="w-4 h-4 text-green-500" /> 3. 6天當地交通 (包車+Grab)</span>
               <span className="font-mono font-bold text-slate-900">NT$ {(selectedTier.breakdown.transport * numberOfTravelers).toLocaleString()}</span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.transport.toLocaleString()} (含機場接送、巴拿山、會安與順化)</p>
+            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.transport.toLocaleString()} (含機場接送、巴拿山、會安與順化或市區接駁)</p>
           </div>
 
           <div className="bg-[#F8F9FA] p-4 rounded-xl border border-gray-100">
@@ -194,7 +194,7 @@ export const BudgetCalculator: React.FC = () => {
               <span className="flex items-center gap-1.5 font-bold text-slate-800"><Utensils className="w-4 h-4 text-rose-500" /> 4. 6天餐飲美食</span>
               <span className="font-mono font-bold text-slate-900">NT$ {(selectedTier.breakdown.food * numberOfTravelers).toLocaleString()}</span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.food.toLocaleString()} (活海鮮、Pizza 4P's、米其林米線與咖啡)</p>
+            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.food.toLocaleString()} (活海鮮、Pizza 4P's、特色米線與咖啡)</p>
           </div>
 
           <div className="bg-[#F8F9FA] p-4 rounded-xl border border-gray-100">
@@ -202,7 +202,7 @@ export const BudgetCalculator: React.FC = () => {
               <span className="flex items-center gap-1.5 font-bold text-slate-800"><Ticket className="w-4 h-4 text-purple-500" /> 5. 景點門票與娛樂</span>
               <span className="font-mono font-bold text-slate-900">NT$ {(selectedTier.breakdown.activities * numberOfTravelers).toLocaleString()}</span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.activities.toLocaleString()} (巴拿山門票Buffet、竹籃船、水燈等)</p>
+            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.activities.toLocaleString()} (巴拿山纜車、竹籃船、古蹟票等)</p>
           </div>
 
           <div className="bg-[#F8F9FA] p-4 rounded-xl border border-gray-100">
@@ -210,9 +210,35 @@ export const BudgetCalculator: React.FC = () => {
               <span className="flex items-center gap-1.5 font-bold text-slate-800"><Sparkles className="w-4 h-4 text-amber-500" /> 6. SPA按摩與伴手禮</span>
               <span className="font-mono font-bold text-slate-900">NT$ {(selectedTier.breakdown.spaShopping * numberOfTravelers).toLocaleString()}</span>
             </div>
-            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.spaShopping.toLocaleString()} (越式熱石草本按摩與樂天超市)</p>
+            <p className="text-xs text-slate-500 mt-1">單人約 NT$ {selectedTier.breakdown.spaShopping.toLocaleString()} (越式熱石草本按摩與超市採買)</p>
           </div>
         </div>
+
+        {/* Day 5 Plan A vs Plan B Cost Comparison if available */}
+        {selectedTier.day5Comparison && (
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 text-xs">
+            <div className="font-bold text-slate-800 text-sm mb-2">
+              ⚖️ Day 5 方案 A (順化古都) vs 方案 B (峴港度假) 費用對比說明
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+              <div className="bg-white p-3 rounded-lg border border-slate-200">
+                <div className="font-bold text-slate-900">{selectedTier.day5Comparison.planAName}</div>
+                <div className="text-slate-600 font-mono mt-1 font-bold">
+                  單人預估：NT$ {selectedTier.day5Comparison.planATotalTWD.toLocaleString()} ({numberOfTravelers} 人：NT$ {(selectedTier.day5Comparison.planATotalTWD * numberOfTravelers).toLocaleString()})
+                </div>
+              </div>
+              <div className="bg-white p-3 rounded-lg border border-slate-200">
+                <div className="font-bold text-slate-900">{selectedTier.day5Comparison.planBName}</div>
+                <div className="text-slate-600 font-mono mt-1 font-bold">
+                  單人預估：NT$ {selectedTier.day5Comparison.planBTotalTWD.toLocaleString()} ({numberOfTravelers} 人：NT$ {(selectedTier.day5Comparison.planBTotalTWD * numberOfTravelers).toLocaleString()})
+                </div>
+              </div>
+            </div>
+            <p className="text-slate-600 leading-relaxed">
+              {selectedTier.day5Comparison.note}
+            </p>
+          </div>
+        )}
 
         {/* Total Calculation Card (Clean Slate Card) */}
         <div className="bg-slate-900 text-white p-6 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-5 shadow-sm">

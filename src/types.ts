@@ -9,9 +9,13 @@ export interface Activity {
   costEstimate?: string;
   weatherBackup?: string; // Rainy day alternative
   mapQuery?: string;
-  reservation?: string; // e.g. "建議提早 3~7 天線上預約訂位"
-  openingHours?: string; // e.g. "08:00 - 17:00 (纜車最晚 17:00 下山)"
-  restrictions?: string[]; // e.g. ["穿著需過膝且有袖 (不可著背心短褲)", "禁止攜帶無人機"]
+  reservation?: string; // e.g. "出發前或依官方最新公告確認"
+  openingHours?: string; // e.g. "08:00 - 17:00 (以現場公告為準)"
+  restrictions?: string[]; // e.g. ["穿著需過膝且有袖", "禁止攜帶無人機"]
+  isCore?: boolean; // 今日核心必排
+  isOptional?: boolean; // 彈性自由選配
+  canSkipIfTired?: boolean; // 若太累或下雨優先刪除
+  weatherSuitability?: 'sunny-preferred' | 'rain-safe' | 'heavy-rain-avoid' | 'indoor-only';
 }
 
 export interface DayPlan {
@@ -20,6 +24,16 @@ export interface DayPlan {
   weekday: string;
   title: string;
   subtitle: string;
+  theme: string; // 今日主題：一句話說明核心體驗
+  coreActivities: string[]; // 今日核心：最多 1~2 個
+  optionalActivities?: string[]; // 彈性活動：有時間/體力再去
+  cutIfTiredOrRaining?: string[]; // 若太累、下雨或延遲優先刪除
+  weatherSwapAdvice: {
+    condition: string;
+    suggestion: string;
+    targetDayNumber?: number;
+    recommendedModule?: string;
+  };
   highlights: string[];
   meals: {
     breakfast: string;
@@ -30,6 +44,39 @@ export interface DayPlan {
   transportation: string;
   weatherAdvice: string;
   activities: Activity[];
+  alternativePlanB?: {
+    title: string;
+    subtitle: string;
+    theme: string;
+    coreActivities: string[];
+    comparison: {
+      travelTime: string;
+      fatigue: string;
+      culture: string;
+      relaxation: string;
+      rainRisk: string;
+    };
+    meals: {
+      breakfast: string;
+      lunch: string;
+      dinner: string;
+      snackOrCafe?: string;
+    };
+    transportation: string;
+    weatherAdvice: string;
+    activities: Activity[];
+  };
+}
+
+export interface WeatherModule {
+  id: string;
+  name: string;
+  primaryCondition: string;
+  bestDays: string;
+  avoidWhen: string;
+  swapAction: string;
+  iconName: string;
+  riskLevel: 'low' | 'medium' | 'high';
 }
 
 export interface AlternativeStyle {
@@ -64,6 +111,15 @@ export interface BudgetTier {
     spaShopping: number;
   };
   highlights: string[];
+  day5Comparison?: {
+    planAName: string;
+    planATotalTWD: number;
+    planATotalVND: number;
+    planBName: string;
+    planBTotalTWD: number;
+    planBTotalVND: number;
+    note: string;
+  };
 }
 
 export interface RestaurantItem {
