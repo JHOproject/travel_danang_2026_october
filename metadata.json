@@ -1,0 +1,6 @@
+{
+  "name": "峴港六天五夜達人行程規劃與TXT下載",
+  "description": "2026/10/1 - 10/6 峴港半島飯店出發，含五日客製行程、美食推薦、雨季應對、交通安全指南、多種替代玩法與預算分析，支援一鍵匯出 TXT 隨身行程筆記。",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
