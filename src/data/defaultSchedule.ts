@@ -6,7 +6,7 @@ import { DefaultScheduleConfig } from '../types';
  * All detailed itinerary information is dynamically derived from the central database.
  */
 export const defaultSchedule: DefaultScheduleConfig = {
-  version: 1,
+  version: 2,
   days: {
     day1: [
       { sourceKey: 'fixed-d1-flight', completed: false },
