@@ -570,48 +570,57 @@ export const MyItinerary: React.FC = () => {
     }))
   ];
 
-  // Helper to check where an item sourceKey is placed and its completion status
-  const getItemPlacementInfo = (sourceKey: string, currentTargetDay: number | null) => {
-    const keysToCheck = [sourceKey];
-    if (sourceKey === 'main-day-1') {
-      keysToCheck.push('fixed-d1-flight', 'main-day-1-explore');
-    } else if (sourceKey === 'main-day-4' || sourceKey === 'main-day-4-daytime') {
-      keysToCheck.push('main-day-4-daytime', 'fixed-d4-dragon-bridge', 'main-day-4');
-    } else if (sourceKey === 'main-day-6' || sourceKey === 'main-day-6-museum') {
-      keysToCheck.push('main-day-6-museum', 'fixed-d6-flight', 'main-day-6');
+  // Helper to check if two module keys match (handling aliases without false positives)
+  const isModuleMatch = (candidateKey: string, targetKey: string): boolean => {
+    if (candidateKey === targetKey) return true;
+    if ((candidateKey === 'main-day-1' || candidateKey === 'main-day-1-explore') &&
+        (targetKey === 'main-day-1' || targetKey === 'main-day-1-explore')) {
+      return true;
     }
+    if ((candidateKey === 'main-day-4' || candidateKey === 'main-day-4-daytime') &&
+        (targetKey === 'main-day-4' || targetKey === 'main-day-4-daytime')) {
+      return true;
+    }
+    if ((candidateKey === 'main-day-6' || candidateKey === 'main-day-6-museum') &&
+        (targetKey === 'main-day-6' || targetKey === 'main-day-6-museum')) {
+      return true;
+    }
+    return false;
+  };
+
+  // Helper to dynamically calculate placements and completion status for a module in current schedule
+  interface ModulePlacementOccurrence {
+    dayNumber: number;
+    isCurrentDay: boolean;
+    completed: boolean;
+  }
+
+  interface ModulePlacementsSummary {
+    occurrences: ModulePlacementOccurrence[];
+    completedOccurrences: ModulePlacementOccurrence[];
+    activeOccurrences: ModulePlacementOccurrence[];
+  }
+
+  const getModulePlacements = (sourceKey: string, currentTargetDay: number | null): ModulePlacementsSummary => {
+    const occurrences: ModulePlacementOccurrence[] = [];
 
     for (const day of containers) {
-      const match = day.items.find((it) => {
-        if (keysToCheck.includes(it.sourceKey)) return true;
-        if (sourceKey.startsWith('main-day-')) {
-          const mainDayNum = parseInt(sourceKey.replace('main-day-', ''), 10);
-          if (mainDayNum === 1 && (it.sourceKey === 'fixed-d1-flight' || it.sourceKey === 'main-day-1')) return true;
-          if (mainDayNum === 4 && (it.sourceKey === 'fixed-d4-dragon-bridge' || it.sourceKey === 'main-day-4-daytime' || it.sourceKey === 'main-day-4')) return true;
-          if (mainDayNum === 6 && (it.sourceKey === 'fixed-d6-flight' || it.sourceKey === 'main-day-6' || it.sourceKey === 'main-day-6-museum')) return true;
-          if (it.sourceKey === `main-day-${mainDayNum}`) return true;
+      for (const it of day.items) {
+        if (isModuleMatch(it.sourceKey, sourceKey)) {
+          occurrences.push({
+            dayNumber: day.dayNumber,
+            isCurrentDay: currentTargetDay !== null && day.dayNumber === currentTargetDay,
+            completed: !!it.completed
+          });
         }
-        return false;
-      });
-
-      if (match) {
-        const isCompleted = day.items.some((it) => {
-          const isRelated = keysToCheck.includes(it.sourceKey) ||
-            (sourceKey === 'main-day-1' && (it.sourceKey === 'fixed-d1-flight' || it.sourceKey === 'main-day-1')) ||
-            (sourceKey === 'main-day-4' && (it.sourceKey === 'fixed-d4-dragon-bridge' || it.sourceKey === 'main-day-4-daytime' || it.sourceKey === 'main-day-4')) ||
-            (sourceKey === 'main-day-6' && (it.sourceKey === 'fixed-d6-flight' || it.sourceKey === 'main-day-6' || it.sourceKey === 'main-day-6-museum')) ||
-            it.sourceKey === sourceKey;
-          return isRelated && !!it.completed;
-        });
-
-        return {
-          dayNumber: day.dayNumber,
-          isCompleted,
-          isCurrentDay: currentTargetDay !== null && day.dayNumber === currentTargetDay
-        };
       }
     }
-    return null;
+
+    return {
+      occurrences,
+      completedOccurrences: occurrences.filter((o) => o.completed),
+      activeOccurrences: occurrences.filter((o) => !o.completed)
+    };
   };
 
   // Reorder item within the same day (All modules including fixed can be reordered within day)
@@ -712,7 +721,7 @@ export const MyItinerary: React.FC = () => {
   // Handle selecting an item to add to target day
   const handleSelectAddPoolItem = (poolItem: PoolItem) => {
     if (targetAddDay === null) return;
-    const placement = getItemPlacementInfo(poolItem.sourceKey, targetAddDay);
+    const placements = getModulePlacements(poolItem.sourceKey, targetAddDay);
 
     const doAdd = () => {
       const newItem: CustomItineraryItem = {
@@ -741,37 +750,49 @@ export const MyItinerary: React.FC = () => {
       setTargetAddDay(null);
     };
 
-    if (placement) {
-      if (placement.isCompleted) {
+    if (placements.occurrences.length > 0) {
+      if (placements.activeOccurrences.length > 0) {
+        const hasCurrentDay = placements.activeOccurrences.some((o) => o.isCurrentDay);
+        const dayLabels = placements.activeOccurrences
+          .map((o) => (o.isCurrentDay ? '本日' : `Day ${o.dayNumber}`))
+          .join('、');
+
+        if (hasCurrentDay) {
+          setConfirmDialog({
+            isOpen: true,
+            title: '重複安排提醒',
+            message: `「${poolItem.title}」目前已安排於本日${placements.activeOccurrences.length > 1 ? `（及 ${placements.activeOccurrences.filter((o) => !o.isCurrentDay).map((o) => `Day ${o.dayNumber}`).join('、')}）` : ''}，仍要再次加入嗎？`,
+            confirmText: '仍然加入',
+            cancelText: '取消',
+            onConfirm: () => {
+              setConfirmDialog((c) => ({ ...c, isOpen: false }));
+              doAdd();
+            }
+          });
+        } else {
+          setConfirmDialog({
+            isOpen: true,
+            title: '重複安排提醒',
+            message: `這個行程已安排於 ${dayLabels}，仍要再次加入至 Day ${targetAddDay} 嗎？`,
+            confirmText: '仍然加入',
+            cancelText: '取消',
+            onConfirm: () => {
+              setConfirmDialog((c) => ({ ...c, isOpen: false }));
+              doAdd();
+            }
+          });
+        }
+      } else {
+        // All occurrences are completed
+        const completedDayLabels = placements.completedOccurrences
+          .map((o) => (o.isCurrentDay ? '本日' : `Day ${o.dayNumber}`))
+          .join('、');
+
         setConfirmDialog({
           isOpen: true,
           title: '已完成行程重複加入提醒',
-          message: `這個行程已於 ${placement.isCurrentDay ? '本日' : `Day ${placement.dayNumber}`} 完成，是否仍要再次安排？`,
+          message: `這個行程已於 ${completedDayLabels} 完成，是否仍要再次安排至 Day ${targetAddDay}？`,
           confirmText: '再次安排',
-          cancelText: '取消',
-          onConfirm: () => {
-            setConfirmDialog((c) => ({ ...c, isOpen: false }));
-            doAdd();
-          }
-        });
-      } else if (placement.isCurrentDay) {
-        setConfirmDialog({
-          isOpen: true,
-          title: '重複安排提醒',
-          message: `「${poolItem.title}」已安排於本日，仍要再次加入嗎？`,
-          confirmText: '仍然加入',
-          cancelText: '取消',
-          onConfirm: () => {
-            setConfirmDialog((c) => ({ ...c, isOpen: false }));
-            doAdd();
-          }
-        });
-      } else {
-        setConfirmDialog({
-          isOpen: true,
-          title: '重複安排提醒',
-          message: `這個行程已安排於 Day ${placement.dayNumber}，仍要加入 Day ${targetAddDay} 嗎？`,
-          confirmText: '仍然加入',
           cancelText: '取消',
           onConfirm: () => {
             setConfirmDialog((c) => ({ ...c, isOpen: false }));
@@ -1358,7 +1379,7 @@ export const MyItinerary: React.FC = () => {
               </p>
 
               {availablePool.map((poolItem) => {
-                const placement = getItemPlacementInfo(poolItem.sourceKey, targetAddDay);
+                const placements = getModulePlacements(poolItem.sourceKey, targetAddDay);
 
                 return (
                   <div
@@ -1372,24 +1393,27 @@ export const MyItinerary: React.FC = () => {
                           {poolItem.categoryLabel}
                         </span>
 
-                        {/* State Badges A / B / C / D */}
-                        {placement && (
-                          <>
-                            {placement.isCompleted ? (
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
-                                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
-                                <span>{placement.isCurrentDay ? '✓ 已於本日完成' : `✓ 已於 Day ${placement.dayNumber} 完成`}</span>
-                              </span>
-                            ) : placement.isCurrentDay ? (
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-blue-50 text-blue-800 border border-blue-200">
-                                已排在本日
-                              </span>
-                            ) : (
-                              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
-                                已排在 Day {placement.dayNumber}
-                              </span>
-                            )}
-                          </>
+                        {/* Completed Badges */}
+                        {placements.completedOccurrences.length > 0 && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 flex items-center gap-1">
+                            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                            <span>
+                              ✓ 已於 {placements.completedOccurrences.map((o) => (o.isCurrentDay ? '本日' : `Day ${o.dayNumber}`)).join('、')} 完成
+                            </span>
+                          </span>
+                        )}
+
+                        {/* Active Scheduled Badges */}
+                        {placements.activeOccurrences.length > 0 && (
+                          <span
+                            className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                              placements.activeOccurrences.some((o) => o.isCurrentDay)
+                                ? 'bg-blue-50 text-blue-800 border-blue-200'
+                                : 'bg-amber-50 text-amber-800 border-amber-200'
+                            }`}
+                          >
+                            已排在 {placements.activeOccurrences.map((o) => (o.isCurrentDay ? '本日' : `Day ${o.dayNumber}`)).join('、')}
+                          </span>
                         )}
                       </div>
 
