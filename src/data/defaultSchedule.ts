@@ -20,19 +20,19 @@ export const defaultSchedule: DefaultScheduleConfig = {
     ],
     day2: [
       {
-        sourceKey: 'main-day-4-daytime',
+        sourceKey: 'main-day-3',
         completed: false
       }
     ],
     day3: [
       {
-        sourceKey: 'main-day-3',
+        sourceKey: 'main-day-2',
         completed: false
       }
     ],
     day4: [
       {
-        sourceKey: 'main-day-2',
+        sourceKey: 'main-day-5',
         completed: false
       },
       {
@@ -42,7 +42,7 @@ export const defaultSchedule: DefaultScheduleConfig = {
     ],
     day5: [
       {
-        sourceKey: 'main-day-5',
+        sourceKey: 'main-day-4-daytime',
         completed: false
       }
     ],
