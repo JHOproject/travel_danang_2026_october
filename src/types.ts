@@ -132,3 +132,42 @@ export interface RestaurantItem {
   rating: string;
   proTip: string;
 }
+
+export interface CustomItineraryItem {
+  id: string; // unique instance id (e.g. 'item-day1-1')
+  sourceKey: string; // canonical key from raw data (e.g. 'main-day-1', 'main-day-5-b', 'weather-mod-ba-na', etc.)
+  title: string;
+  subtitle: string;
+  sourceType: 'main_day' | 'plan_b' | 'weather_module' | 'rain_module' | 'style_day' | 'fixed_event';
+  categoryLabel?: string;
+  summary: string;
+  location?: string;
+  timeRange?: string;
+  tips?: string;
+  costEstimate?: string;
+  weatherSuitability?: string;
+  completed?: boolean;
+  isFixed?: boolean;
+}
+
+export interface CustomDayContainer {
+  dayNumber: number;
+  date: string;
+  weekday: string;
+  isCompleted?: boolean;
+  items: CustomItineraryItem[];
+}
+
+export interface DayScheduleEntry {
+  sourceKey: string;
+  completed?: boolean;
+}
+
+export interface DefaultScheduleConfig {
+  day1: DayScheduleEntry[];
+  day2: DayScheduleEntry[];
+  day3: DayScheduleEntry[];
+  day4: DayScheduleEntry[];
+  day5: DayScheduleEntry[];
+  day6: DayScheduleEntry[];
+}

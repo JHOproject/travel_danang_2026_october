@@ -203,6 +203,7 @@ export const Header: React.FC<HeaderProps> = ({ activeTab, setActiveTab, onOpenT
       <div className="bg-white border-t border-gray-200 px-4 sm:px-6 lg:px-8 overflow-x-auto scrollbar-none">
         <nav className="flex space-x-2 max-w-7xl mx-auto py-2" aria-label="Tabs">
           {[
+            { id: 'my-itinerary', label: '🧭 我的行程', desc: '自由編排/交換/標記完成' },
             { id: 'itinerary', label: '📅 6天5夜主行程', desc: '詳細每日時間軸與美食' },
             { id: 'alternatives', label: '🔄 4大替換玩法', desc: '奢華SPA/文化/雨季備案' },
             { id: 'budget', label: '💰 預算費用分析', desc: '三階花費與互動計算機' },

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
+import { MyItinerary } from './components/MyItinerary';
 import { DayTimeline } from './components/DayTimeline';
 import { AlternativePlans } from './components/AlternativePlans';
 import { BudgetCalculator } from './components/BudgetCalculator';
@@ -13,7 +14,7 @@ import {
 import { generateItineraryTxt, downloadTxtFile } from './utils/txtGenerator';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<string>('itinerary');
+  const [activeTab, setActiveTab] = useState<string>('my-itinerary');
 
   const handleFloatingDownload = () => {
     const txt = generateItineraryTxt();
@@ -31,6 +32,7 @@ export default function App() {
 
       {/* Main Content Area */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        {activeTab === 'my-itinerary' && <MyItinerary />}
         {activeTab === 'itinerary' && <DayTimeline />}
         {activeTab === 'alternatives' && <AlternativePlans />}
         {activeTab === 'budget' && <BudgetCalculator />}
@@ -66,6 +68,12 @@ export default function App() {
 
           <div className="flex items-center gap-4 text-xs font-medium">
             <button 
+              onClick={() => setActiveTab('my-itinerary')} 
+              className="text-slate-900 font-bold hover:underline transition-colors cursor-pointer"
+            >
+              我的行程
+            </button>
+            <button 
               onClick={() => setActiveTab('itinerary')} 
               className="text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
             >
@@ -85,7 +93,7 @@ export default function App() {
             </button>
             <button 
               onClick={() => setActiveTab('txt-export')} 
-              className="text-slate-900 font-bold hover:underline transition-colors cursor-pointer"
+              className="text-slate-600 hover:text-slate-900 transition-colors cursor-pointer"
             >
               下載 TXT
             </button>
