@@ -34,6 +34,7 @@ export const createItemFromSourceKey = (sourceKey: string, completed = false): C
         timeRange: '09:00 - 11:40',
         tips: '航班與入境時間固定，交換整日時自動保留於 Day 1。',
         isFixed: true,
+        allowedDays: [1],
         completed
       };
 
@@ -111,15 +112,16 @@ export const createItemFromSourceKey = (sourceKey: string, completed = false): C
       return {
         id: 'item-d4-fixed-dragon-bridge',
         sourceKey: 'fixed-d4-dragon-bridge',
-        title: '【固定活動】20:15–21:30 龍橋週末噴火噴水秀 (21:00 演出)',
+        title: '【週末限定】20:15–21:30 龍橋週末噴火噴水秀 (21:00 演出)',
         subtitle: '20:15 提早卡位 ➔ 21:00 週末限定噴火噴水聲光震撼演出',
         sourceType: 'fixed_event',
-        categoryLabel: '週日限定',
-        summary: '峴港週末限定代表性地標！每逢週五、週六、週日晚間 21:00 準時上演 15 分鐘噴火與噴水震撼特效，固定於 10/04 (週日) 晚間執行。',
+        categoryLabel: '週末限定',
+        summary: '峴港週末限定代表性地標！每逢週五、週六、週日晚間 21:00 準時上演 15 分鐘噴火與噴水震撼特效，演出時間固定為 21:00。',
         location: '龍橋東岸龍頭端 (靠近 Trần Hưng Đạo 路口)',
         timeRange: '20:15 - 21:30',
-        tips: '建議提前於 20:15~20:30 抵達卡位，固定於 10/04 (週日) 演出，交換整日時自動保留於 Day 4。',
-        isFixed: true,
+        tips: '建議提前於 20:15~20:30 抵達卡位，可安排於週五、週六、週日 (Day 2、Day 3、Day 4)，演出時間固定為 21:00。',
+        allowedDays: [2, 3, 4],
+        isFixed: false,
         completed
       };
 
@@ -188,6 +190,7 @@ export const createItemFromSourceKey = (sourceKey: string, completed = false): C
         timeRange: '13:15 - 17:30',
         tips: '國際返程航班時間固定，交換整日時自動保留於 Day 6。',
         isFixed: true,
+        allowedDays: [6],
         completed
       };
 
@@ -284,6 +287,7 @@ interface PoolItem {
   tips: string;
   costEstimate?: string;
   isFixed?: boolean;
+  allowedDays?: number[];
   rawDayData?: DayPlan;
 }
 
@@ -542,6 +546,19 @@ export const MyItinerary: React.FC = () => {
       tips: MAIN_ITINERARY[5].weatherAdvice,
       rawDayData: MAIN_ITINERARY[5]
     },
+    // Weekend Constrained Module (Dragon Bridge)
+    {
+      sourceKey: 'fixed-d4-dragon-bridge',
+      title: '【週末限定】20:15–21:30 龍橋週末噴火噴水秀 (21:00 演出)',
+      subtitle: '20:15 提早卡位 ➔ 21:00 週末限定噴火噴水聲光震撼演出',
+      sourceType: 'fixed_event' as const,
+      categoryLabel: '週末限定',
+      summary: '峴港週末限定代表性地標！每逢週五、週六、週日晚間 21:00 準時上演 15 分鐘噴火與噴水震撼特效，演出時間固定為 21:00。',
+      location: '龍橋東岸龍頭端 (靠近 Trần Hưng Đạo 路口)',
+      timeRange: '20:15 - 21:30',
+      tips: '建議提前於 20:15~20:30 抵達卡位，可安排於週五、週六、週日 (Day 2、Day 3、Day 4)，演出時間固定為 21:00。',
+      allowedDays: [2, 3, 4]
+    },
     // 2. Alternative Styles Day Modules
     ...ALTERNATIVE_STYLES.flatMap((style) =>
       style.daysSummary.map((ds, index) => ({
@@ -664,7 +681,14 @@ export const MyItinerary: React.FC = () => {
     setIsSwapModalOpen(true);
   };
 
-  // Execute Day Swap - Fixed activities stay in place!
+  // Helper to determine if an item can legally move to another day
+  const canMoveItemToDay = (item: CustomItineraryItem, destDayNum: number): boolean => {
+    if (item.isFixed) return false;
+    if (item.allowedDays && !item.allowedDays.includes(destDayNum)) return false;
+    return true;
+  };
+
+  // Execute Day Swap - Fixed date items and weekend-constrained items (when moving to non-weekends) stay in place!
   const handleExecuteSwap = (targetDayNumber: number) => {
     if (sourceSwapDay === null) return;
     const sourceDayObj = containers.find((d) => d.dayNumber === sourceSwapDay);
@@ -677,32 +701,32 @@ export const MyItinerary: React.FC = () => {
       const sIdx = next.findIndex((d) => d.dayNumber === sourceSwapDay);
       const tIdx = next.findIndex((d) => d.dayNumber === targetDayNumber);
 
-      // Keep fixed items in their original day, only swap movable items
-      const sFixed = next[sIdx].items.filter((it) => it.isFixed);
-      const sMovable = next[sIdx].items.filter((it) => !it.isFixed);
-      const tFixed = next[tIdx].items.filter((it) => it.isFixed);
-      const tMovable = next[tIdx].items.filter((it) => !it.isFixed);
+      // Keep fixed items and disallowed items in their original day, only swap items allowed to move
+      const sStay = next[sIdx].items.filter((it) => !canMoveItemToDay(it, targetDayNumber));
+      const sMove = next[sIdx].items.filter((it) => canMoveItemToDay(it, targetDayNumber));
+      const tStay = next[tIdx].items.filter((it) => !canMoveItemToDay(it, sourceSwapDay));
+      const tMove = next[tIdx].items.filter((it) => canMoveItemToDay(it, sourceSwapDay));
 
       next[sIdx] = {
         ...next[sIdx],
-        items: [...sFixed, ...tMovable]
+        items: [...sStay, ...tMove]
       };
       next[tIdx] = {
         ...next[tIdx],
-        items: [...tFixed, ...sMovable]
+        items: [...tStay, ...sMove]
       };
       saveDraftChanges(next);
       setIsSwapModalOpen(false);
       setSourceSwapDay(null);
     };
 
-    const sourceMovableTitles = sourceDayObj.items.filter((it) => !it.isFixed).map((it) => it.title).join('、') || '無可移動行程';
-    const targetMovableTitles = targetDayObj.items.filter((it) => !it.isFixed).map((it) => it.title).join('、') || '無可移動行程';
+    const sourceMovableTitles = sourceDayObj.items.filter((it) => canMoveItemToDay(it, targetDayNumber)).map((it) => it.title).join('、') || '無可移動行程';
+    const targetMovableTitles = targetDayObj.items.filter((it) => canMoveItemToDay(it, sourceSwapDay)).map((it) => it.title).join('、') || '無可移動行程';
 
     setConfirmDialog({
       isOpen: true,
       title: `交換 Day ${sourceSwapDay} 與 Day ${targetDayNumber} 的可移動行程？`,
-      message: `固定日期／固定時間活動將保留在原日期。\n\nDay ${sourceSwapDay} 可移動：${sourceMovableTitles}\n↕\nDay ${targetDayNumber} 可移動：${targetMovableTitles}`,
+      message: `固定日期活動與受限活動將保留在合法日期。\n\nDay ${sourceSwapDay} 可移動：${sourceMovableTitles}\n↕\nDay ${targetDayNumber} 可移動：${targetMovableTitles}`,
       confirmText: '確認交換',
       cancelText: '取消',
       onConfirm: () => {
@@ -737,7 +761,8 @@ export const MyItinerary: React.FC = () => {
         tips: poolItem.tips,
         costEstimate: poolItem.costEstimate,
         completed: false,
-        isFixed: poolItem.isFixed || false
+        isFixed: poolItem.isFixed || false,
+        allowedDays: poolItem.allowedDays
       };
 
       const updated = containers.map((day) =>
@@ -1141,12 +1166,24 @@ export const MyItinerary: React.FC = () => {
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex-1">
                             <div className="flex items-center gap-1.5 flex-wrap">
-                              <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                                item.isFixed
-                                  ? 'bg-amber-100 text-amber-900 border border-amber-200 flex items-center gap-0.5'
-                                  : 'bg-slate-100 text-slate-700'
-                              }`}>
+                              <span
+                                className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
+                                  item.isFixed
+                                    ? 'bg-amber-100 text-amber-900 border border-amber-200 flex items-center gap-0.5'
+                                    : item.sourceKey === 'fixed-d4-dragon-bridge' || (item.allowedDays && item.allowedDays.length < 6)
+                                    ? 'bg-amber-100 text-amber-900 border border-amber-200 flex items-center gap-0.5'
+                                    : 'bg-slate-100 text-slate-700'
+                                }`}
+                                title={
+                                  item.sourceKey === 'fixed-d4-dragon-bridge' || (item.allowedDays && item.allowedDays.length < 6)
+                                    ? '可安排於週五、週六、週日，演出時間 21:00'
+                                    : item.isFixed
+                                    ? '固定航班/活動'
+                                    : undefined
+                                }
+                              >
                                 {item.isFixed && <Lock className="w-2.5 h-2.5 text-amber-800" />}
+                                {item.sourceKey === 'fixed-d4-dragon-bridge' && <Sparkles className="w-2.5 h-2.5 text-amber-800" />}
                                 #{idx + 1} {item.categoryLabel || (item.isFixed ? '固定' : '行程')}
                               </span>
                               {item.timeRange && (
@@ -1380,18 +1417,33 @@ export const MyItinerary: React.FC = () => {
 
               {availablePool.map((poolItem) => {
                 const placements = getModulePlacements(poolItem.sourceKey, targetAddDay);
+                const isRestricted = !!(poolItem.allowedDays && !poolItem.allowedDays.includes(targetAddDay));
 
                 return (
                   <div
                     key={poolItem.sourceKey}
-                    onClick={() => handleSelectAddPoolItem(poolItem)}
-                    className="p-3.5 rounded-xl border border-gray-200 hover:border-slate-900 hover:bg-slate-50/60 transition-all cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-3 group"
+                    onClick={() => {
+                      if (isRestricted) return;
+                      handleSelectAddPoolItem(poolItem);
+                    }}
+                    className={`p-3.5 rounded-xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                      isRestricted
+                        ? 'border-gray-200/80 bg-slate-50/70 opacity-60 cursor-not-allowed'
+                        : 'border-gray-200 hover:border-slate-900 hover:bg-slate-50/60 cursor-pointer group'
+                    }`}
                   >
                     <div className="flex-1">
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 border border-slate-200">
                           {poolItem.categoryLabel}
                         </span>
+
+                        {/* Allowed Days Restriction Warning */}
+                        {isRestricted && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-50 text-rose-700 border border-rose-200">
+                            僅限週五、週六、週日
+                          </span>
+                        )}
 
                         {/* Completed Badges */}
                         {placements.completedOccurrences.length > 0 && (
@@ -1417,7 +1469,9 @@ export const MyItinerary: React.FC = () => {
                         )}
                       </div>
 
-                      <h4 className="text-sm font-bold text-slate-900 mt-1 group-hover:text-blue-600 transition-colors">
+                      <h4 className={`text-sm font-bold mt-1 transition-colors ${
+                        isRestricted ? 'text-slate-600' : 'text-slate-900 group-hover:text-blue-600'
+                      }`}>
                         {poolItem.title}
                       </h4>
                       <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">
@@ -1426,9 +1480,15 @@ export const MyItinerary: React.FC = () => {
                     </div>
 
                     <div className="shrink-0 flex items-center gap-2">
-                      <span className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-900 text-white group-hover:bg-blue-600 transition-colors">
-                        選擇加入
-                      </span>
+                      {isRestricted ? (
+                        <span className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-200 text-slate-500 cursor-not-allowed">
+                          僅限週五～週日
+                        </span>
+                      ) : (
+                        <span className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-900 text-white group-hover:bg-blue-600 transition-colors">
+                          選擇加入
+                        </span>
+                      )}
                     </div>
                   </div>
                 );

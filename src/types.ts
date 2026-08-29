@@ -148,6 +148,7 @@ export interface CustomItineraryItem {
   weatherSuitability?: string;
   completed?: boolean;
   isFixed?: boolean;
+  allowedDays?: number[];
 }
 
 export interface CustomDayContainer {
