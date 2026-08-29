@@ -614,18 +614,12 @@ export const MyItinerary: React.FC = () => {
     return null;
   };
 
-  // Reorder item within the same day
+  // Reorder item within the same day (All modules including fixed can be reordered within day)
   const handleMoveItem = (dayNumber: number, currentIndex: number, direction: 'up' | 'down') => {
     const targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
     const day = containers.find((d) => d.dayNumber === dayNumber);
     if (!day) return;
     if (targetIndex < 0 || targetIndex >= day.items.length) return;
-
-    const currentItem = day.items[currentIndex];
-    const targetItem = day.items[targetIndex];
-
-    // Fixed items are anchored and cannot be moved or swapped across
-    if (currentItem.isFixed || targetItem.isFixed) return;
 
     const updatedContainers = containers.map((d) => {
       if (d.dayNumber !== dayNumber) return d;
@@ -1109,10 +1103,9 @@ export const MyItinerary: React.FC = () => {
                 ) : (
                   day.items.map((item, idx) => {
                     const isDone = !!item.completed;
-                    const isFixedItem = !!item.isFixed;
-                    const canMoveUp = !isFixedItem && idx > 0 && !day.items[idx - 1].isFixed;
-                    const canMoveDown = !isFixedItem && idx < day.items.length - 1 && !day.items[idx + 1].isFixed;
-                    const showReorderControls = !isFixedItem && day.items.length > 1;
+                    const canMoveUp = idx > 0;
+                    const canMoveDown = idx < day.items.length - 1;
+                    const showReorderControls = day.items.length > 1;
 
                     return (
                       <div
@@ -1156,7 +1149,7 @@ export const MyItinerary: React.FC = () => {
                                         ? 'text-slate-600 hover:text-slate-950 hover:bg-white'
                                         : 'text-slate-300 cursor-not-allowed opacity-40'
                                     }`}
-                                    title={canMoveUp ? '上移此模組順序' : (idx === 0 ? '已在最上方' : '不可跨越固定時間活動')}
+                                    title={canMoveUp ? '上移此模組順序' : '已在最上方'}
                                     aria-label="上移順序"
                                   >
                                     <ArrowUp className="w-3 h-3" />
@@ -1173,7 +1166,7 @@ export const MyItinerary: React.FC = () => {
                                         ? 'text-slate-600 hover:text-slate-950 hover:bg-white'
                                         : 'text-slate-300 cursor-not-allowed opacity-40'
                                     }`}
-                                    title={canMoveDown ? '下移此模組順序' : (idx === day.items.length - 1 ? '已在最下方' : '不可跨越固定時間活動')}
+                                    title={canMoveDown ? '下移此模組順序' : '已在最下方'}
                                     aria-label="下移順序"
                                   >
                                     <ArrowDown className="w-3 h-3" />
