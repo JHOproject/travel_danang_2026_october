@@ -328,7 +328,7 @@ export const MAIN_ITINERARY: DayPlan[] = [
         isCore: true,
         weatherSuitability: 'sunny-preferred',
         tips: '佛手橋若遇晨霧瀰漫景色獨特；拍照時請留意腳步，雨天木棧道可能稍滑。',
-        costEstimate: '2026 外地旅客成人基本票約 1,300,000 VND（含往返景觀纜車及多數室內遊樂設施；自助午餐、蠟像館或特定展館依所購票種另計，實際票種與價格依 Sun World Ba Na Hills 官方最新公告為準）',
+        costEstimate: '2026 外地旅客成人基本票約 1,000,000 VND（含往返景觀纜車、Golden Bridge、French Village、Fantasy Park 等主要一般設施；部分特殊設施或額外體驗另計。若購買基本票＋午餐 Buffet Combo，約 1,300,000 VND。實際票種、優惠與價格依 2026 Sun World Ba Na Hills 官方最新公告為準）',
         openingHours: '園區與纜車營運一般約 08:00 - 22:00 (每日不同纜車線營運時段依當日官方公告為準)',
         reservation: '強烈建議事先線上購買電子票 (QR Code 直接掃碼入園免排隊購票)',
         restrictions: ['嚴禁攀爬佛手橋欄杆外側', '園區全面禁止攜帶外食與空拍無人機']
@@ -342,7 +342,7 @@ export const MAIN_ITINERARY: DayPlan[] = [
         tags: ['法國村', '歐洲城堡', '異國美食'],
         isCore: true,
         weatherSuitability: 'rain-safe',
-        costEstimate: '自助午餐每人約 350,000~450,000 VND (約 NT$440~560，依所購票種另計)',
+        costEstimate: '自助午餐每人約 350,000~450,000 VND (約 NT$440~560，若購買約 1,300,000 VND 的門票＋Buffet Combo，午餐已包含，不應再次計價；若購買約 1,000,000 VND 基本票，午餐則另外計價)',
         openingHours: '各餐廳營業時間約 11:00 - 15:00'
       },
       {
@@ -673,7 +673,7 @@ export const MAIN_ITINERARY: DayPlan[] = [
     theme: '歷史探索與度假休閒的自由抉擇：順化阮朝紫禁城 vs 峴港海景 SPA 採買舒活日',
     coreActivities: ['方案 A：順化皇城深度探訪 ｜ 方案 B：頂級 SPA 與樂天超市採買'],
     optionalActivities: ['方案 A：啟定皇陵 (視天候體力加選) ｜ 方案 B：美溪沙灘日落與精品下午茶'],
-    cutIfTiredOrRaining: ['方案 A 的啟定陵與樂天超市（若長途車程疲累直接回飯店休息）'],
+    cutIfTiredOrRaining: ['方案 A：啟定陵 ｜ 方案 B：泳池、美溪沙灘散步'],
     weatherSwapAdvice: {
       condition: '順化位於山脈北側，10 月雨量與降雨機率往往高於峴港。',
       suggestion: '若當日順化預報有大豪雨警報，強烈建議旅客直接啟動「方案 B 峴港度假日」，省去 5 小時長途車程，在市區享受頂級 SPA 與美食！',
@@ -756,7 +756,7 @@ export const MAIN_ITINERARY: DayPlan[] = [
         isOptional: true,
         canSkipIfTired: true,
         weatherSuitability: 'sunny-preferred',
-        tips: '【加選提醒】：啟定陵需攀登 127 級陡峭石階，雨天濕滑需注意安全；加選後將直接返回峴港並取消超市採買。',
+        tips: '【加選提醒】：啟定陵需攀登 127 級陡峭石階，雨天濕滑需注意安全；若加選啟定陵，參觀後直接返回峴港，不再增加其他停留點。',
         costEstimate: '門票約 150,000 VND (約 NT$190)',
         openingHours: '約 07:00 - 17:30'
       },
@@ -884,7 +884,7 @@ export const MAIN_ITINERARY: DayPlan[] = [
       condition: '離境日必須以「國際航班準時安全登機」為絕對最高原則！',
       suggestion: '寧可提早到機場，也不要用最後一餐或景點壓縮國際航班緩衝。13:45~14:00 從飯店出發，預計 14:15~14:30 抵達機場 T2 國際航廈，保留約 3 小時進行報到與安檢。'
     },
-    highlights: ['09:40~10:50 占婆雕刻博物館 (避開午休風險)', '11:10~12:15 Bún Chả 炭火烤肉米線午餐', '13:15 返回飯店提領行李', '13:45~14:00 出發前往機場 (預計 14:15~14:30 抵達)', '17:30 航班起飛返台'],
+    highlights: ['09:40~10:50 占婆雕刻博物館', '11:10~12:15 Bún Chả 炭火烤肉米線午餐', '13:15 返回飯店提領行李', '13:45~14:00 出發前往機場 (預計 14:15~14:30 抵達)', '17:30 航班起飛返台'],
     meals: {
       breakfast: '半島飯店豪華海景自助早餐',
       lunch: 'Bún Chả Hà Nội 59 (炭火烤肉米線) 或 Bếp Cuốn (特色春捲拼盤)',
@@ -892,7 +892,7 @@ export const MAIN_ITINERARY: DayPlan[] = [
       snackOrCafe: '機場候機室或市區最後一杯滴漏咖啡'
     },
     transportation: '市區景點搭乘 Grab 短程移動；13:45~14:00 由半島飯店搭乘預約專車或 Grab 直達機場 T2 國際航廈 (車程約 20~30 分鐘)',
-    weatherAdvice: '收官日將占婆雕刻博物館排於上午 09:40–10:50，避開午間閉館/午休風險。恪守「13:15 左右返回飯店、13:45–14:00 出發前往機場」的最高安全原則！',
+    weatherAdvice: '收官日將占婆雕刻博物館排於上午 09:40–10:50，保留午餐與送機充足時間；實際開放時間請於出發前依博物館及峴港官方最新公告確認。恪守「13:15 左右返回飯店、13:45–14:00 出發前往機場」的最高安全原則！',
     activities: [
       {
         time: '08:00 - 09:00',
@@ -918,14 +918,14 @@ export const MAIN_ITINERARY: DayPlan[] = [
         time: '09:40 - 10:50',
         title: '占婆雕刻博物館 (Museum of Cham Sculpture) 參觀',
         location: '02 2 Tháng 9, Bình Hiên, Hải Châu',
-        description: '由法國遠東學院建於 1915 年的法式殖民風格博物館，館藏世界最豐富的古占婆王國 7 至 15 世紀砂岩雕刻藝術品（濕婆神、迦樓羅神鳥、舞王像與象神）。排在上午 09:40–10:50 參觀，完全避開午間閉館/午休風險，全室內展館舒適典雅。',
+        description: '由法國遠東學院建於 1915 年的法式殖民風格博物館，館藏世界最豐富的古占婆王國 7 至 15 世紀砂岩雕刻藝術品（濕婆神、迦樓羅神鳥、舞王像與象神）。排在上午 09:40–10:50 參觀，保留午餐與送機充足時間，全室內展館適合雨天參觀。',
         category: 'sightseeing',
-        tags: ['占婆文明', '砂岩雕刻', '文化藝術', '全室內展館', '避開午休'],
+        tags: ['占婆文明', '砂岩雕刻', '文化藝術', '全室內展館'],
         isCore: true,
         weatherSuitability: 'indoor-only',
         tips: '展館設有法式花園中庭，靜謐典雅；可於售票處租用中文導覽器深入了解占婆神話故事。',
         costEstimate: '門票約 60,000 VND (約 NT$75)',
-        openingHours: '約 07:30 - 17:30',
+        openingHours: '約 07:30 - 17:00；實際開放時間依博物館及峴港官方最新公告為準',
         reservation: '現場購票入館即可'
       },
       {
@@ -1030,9 +1030,9 @@ export const ALTERNATIVE_STYLES: AlternativeStyle[] = [
     description: '免去長途奔波，取消順化長途車程。每天睡到自然醒，安排 3 次精緻 SPA、特色餐廳與海景無邊際泳池。',
     coreVibe: '步調從容、充分休息、享受美食與身心放鬆',
     estimatedCostTWD: 'NT$ 27,000 ~ 38,000 /人',
-    keyHighlights: ['安排 3 次 90~120 分鐘熱石草本 SPA', '半島飯店海景無邊際泳池與海灘漫步', 'Madam Lan ＆ Pizza 4P’s ＆ 海鮮料理', 'Lotte Mart 無壓伴手禮採購', '免除長途車程負擔'],
+    keyHighlights: ['安排 3 次 90~120 分鐘熱石草本 SPA', '半島飯店海景無邊際泳池與海灘漫步', 'Madam Lan ＆ Pizza 4P’s ＆ 海鮮料理', 'Lotte Mart 無壓伴手禮採購', '取消順化約 4.5～5 小時長途往返，降低整趟旅程交通負荷'],
     daysSummary: [
-      { day: 'Day 1', theme: '海景初會', schedule: '半島海景房入住 ➔ 韓市場換匯 ➔ 舒壓 SPA ➔ 海鮮餐廳' },
+      { day: 'Day 1', theme: '海景初會', schedule: '半島海景房入住 ➔ 韓市場換匯 ➔ 市區悠閒活動 ➔ 海鮮餐廳 ➔ 飯店休息' },
       { day: 'Day 2', theme: '雲端漫步', schedule: '巴拿山悠閒遊 ➔ 飯店海景泳池 ➔ 芳療 SPA ➔ Pizza 4P’s' },
       { day: 'Day 3', theme: '浪漫古鎮', schedule: '午後前往會安古鎮 ➔ 老宅私房菜 ➔ 秋盆河燈籠景觀咖啡' },
       { day: 'Day 4', theme: '慢活充電', schedule: '山茶半島遠眺 ➔ 精品手沖咖啡 ➔ 舒壓芳療 ➔ 龍橋夜景' },
@@ -1092,7 +1092,7 @@ export const BUDGET_TIERS: BudgetTier[] = [
       hotel: 4500, // 半島飯店標準房 (2人分攤 5 晚)
       transport: 1800, // Grab 叫車為主 ＋ 拼車接駁
       food: 2400, // 道地小吃、炸魚餅米線、越式煎餅、高樓麵、法棍與平價海鮮
-      activities: 2200, // 巴拿山約130萬盾、五行山+電梯、竹籃船、會安票券、占婆館等
+      activities: 2200, // 巴拿山基本票約100萬盾、五行山+電梯、竹籃船、會安票券、占婆館等
       spaShopping: 800 // 平價越式按摩 1 次、小額伴手禮
     },
     highlights: [
@@ -1100,7 +1100,7 @@ export const BUDGET_TIERS: BudgetTier[] = [
       '住宿：入住半島飯店海景標準房 5 晚 (雙人分攤每人約 NT$4,500)',
       '餐飲：炸魚餅米線、越式煎餅、高樓麵、法棍與平價海鮮',
       '交通：Grab App 市區移動與拼車接送',
-      '門票：含 2026 巴拿山纜車基本票 (約130萬盾)、五行山、竹籃船與古蹟門票'
+      '門票：含 2026 巴拿山基本票 (約100萬盾)、五行山、竹籃船與古蹟門票'
     ],
     day5Comparison: {
       planAName: 'Day 5 方案 A：順化皇城文化一日遊 (拼車分攤)',
@@ -1123,7 +1123,7 @@ export const BUDGET_TIERS: BudgetTier[] = [
       hotel: 6500, // 半島飯店高樓層海景房 (2人分攤 5 晚含豐盛自助早餐)
       transport: 2900, // 機場接送 ＋ 巴拿山/會安/順化或市區包車分攤
       food: 3800, // Bé Mặn 活海鮮、Pizza 4P’s、Madam Lan、順化名店
-      activities: 2400, // 巴拿山纜車約130萬盾、五行山+電梯、竹籃船、會安票券、占婆館、順化皇城
+      activities: 2400, // 巴拿山基本票約100萬盾（或選門票+Buffet Combo約130萬盾）、五行山+電梯、竹籃船、會安票券、占婆館、順化皇城
       spaShopping: 2000 // 頂級 SPA 按摩 2 次、樂天超市伴手禮採購
     },
     highlights: [
@@ -1131,7 +1131,7 @@ export const BUDGET_TIERS: BudgetTier[] = [
       '住宿：半島飯店高樓層美溪海景房 5 晚含自助早餐 (每人約 NT$6,500)',
       '交通：全程專屬包車（巴拿山、會安、順化海雲隧道直達）',
       '美食：現撈生猛海鮮、Pizza 4P’s、Madam Lan 庭園私房菜',
-      '娛樂：巴拿山纜車與景點 (約130萬盾)、Cam Thanh 竹籃船、2 次頂級 SPA'
+      '娛樂：巴拿山基本票約100萬盾（若選門票＋Buffet Combo 則約130萬盾）、Cam Thanh 竹籃船、2 次頂級 SPA'
     ],
     day5Comparison: {
       planAName: 'Day 5 方案 A：順化皇城文化一日遊',
