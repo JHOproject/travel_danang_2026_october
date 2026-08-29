@@ -1,12 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Calendar, Check, CheckCircle2, Plus, ArrowLeftRight, 
   Trash2, MoreHorizontal, Eye, AlertCircle, X, ChevronRight,
-  Compass, RotateCcw, Lock, Copy, CheckCheck
+  Compass, RotateCcw, Lock, Copy, CheckCheck, FileEdit, Sparkles
 } from 'lucide-react';
 import { MAIN_ITINERARY, ALTERNATIVE_STYLES, WEATHER_MODULES } from '../data/itineraryData';
 import { defaultSchedule } from '../data/defaultSchedule';
-import { CustomDayContainer, CustomItineraryItem, DayPlan, DefaultScheduleConfig } from '../types';
+import { 
+  CustomDayContainer, 
+  CustomItineraryItem, 
+  DayPlan, 
+  DefaultScheduleConfig, 
+  DefaultScheduleDays,
+  LocalDraftStorage 
+} from '../types';
+
+const STORAGE_KEY = 'danang_my_itinerary_draft_v1';
 
 // Canonical item builder from sourceKey and optional completion state
 export const createItemFromSourceKey = (sourceKey: string, completed = false): CustomItineraryItem | null => {
@@ -232,8 +241,8 @@ export const createItemFromSourceKey = (sourceKey: string, completed = false): C
   }
 };
 
-// Build 6-day runtime containers from the single defaultSchedule source of truth
-const getContainersFromSchedule = (scheduleConfig: DefaultScheduleConfig): CustomDayContainer[] => {
+// Build 6-day runtime containers from schedule days object
+const getContainersFromDays = (days: DefaultScheduleDays): CustomDayContainer[] => {
   const meta = [
     { dayNumber: 1, date: '2026-10-01', weekday: '星期四', key: 'day1' as const },
     { dayNumber: 2, date: '2026-10-02', weekday: '星期五', key: 'day2' as const },
@@ -244,7 +253,7 @@ const getContainersFromSchedule = (scheduleConfig: DefaultScheduleConfig): Custo
   ];
 
   return meta.map((m) => {
-    const entries = scheduleConfig[m.key] || [];
+    const entries = days[m.key] || [];
     const items: CustomItineraryItem[] = [];
     for (const entry of entries) {
       const item = createItemFromSourceKey(entry.sourceKey, entry.completed);
@@ -278,10 +287,105 @@ interface PoolItem {
 }
 
 export const MyItinerary: React.FC = () => {
-  // Runtime state initialized exclusively from the single defaultSchedule source of truth
-  const [containers, setContainers] = useState<CustomDayContainer[]>(() => 
-    getContainersFromSchedule(defaultSchedule)
-  );
+  // Check localStorage on mount for personal drafts and detect version mismatch
+  const [hasVersionConflict, setHasVersionConflict] = useState(false);
+  const [conflictDraft, setConflictDraft] = useState<LocalDraftStorage | null>(null);
+  const [isDraft, setIsDraft] = useState<boolean>(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed: LocalDraftStorage = JSON.parse(raw);
+        return parsed && parsed.baseVersion === defaultSchedule.version;
+      }
+    } catch {
+      // Ignore
+    }
+    return false;
+  });
+
+  const [containers, setContainers] = useState<CustomDayContainer[]>(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed: LocalDraftStorage = JSON.parse(raw);
+        if (parsed && typeof parsed.baseVersion === 'number' && parsed.schedule) {
+          if (parsed.baseVersion === defaultSchedule.version) {
+            return getContainersFromDays(parsed.schedule);
+          }
+        }
+      }
+    } catch {
+      // Fallback
+    }
+    return getContainersFromDays(defaultSchedule.days);
+  });
+
+  // Check version mismatch on initial mount
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed: LocalDraftStorage = JSON.parse(raw);
+        if (parsed && typeof parsed.baseVersion === 'number' && parsed.schedule) {
+          if (parsed.baseVersion !== defaultSchedule.version) {
+            setConflictDraft(parsed);
+            setHasVersionConflict(true);
+          }
+        }
+      }
+    } catch {
+      // Ignore
+    }
+  }, []);
+
+  // Helper to convert current containers to days object
+  const serializeContainersToDays = (curContainers: CustomDayContainer[]): DefaultScheduleDays => {
+    return {
+      day1: (curContainers.find((d) => d.dayNumber === 1)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
+      day2: (curContainers.find((d) => d.dayNumber === 2)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
+      day3: (curContainers.find((d) => d.dayNumber === 3)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
+      day4: (curContainers.find((d) => d.dayNumber === 4)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
+      day5: (curContainers.find((d) => d.dayNumber === 5)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
+      day6: (curContainers.find((d) => d.dayNumber === 6)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
+    };
+  };
+
+  // Save changes to localStorage personal draft
+  const saveDraftChanges = (newContainers: CustomDayContainer[]) => {
+    setContainers(newContainers);
+    setIsDraft(true);
+    try {
+      const draftData: LocalDraftStorage = {
+        baseVersion: conflictDraft ? conflictDraft.baseVersion : defaultSchedule.version,
+        schedule: serializeContainersToDays(newContainers)
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(draftData));
+    } catch {
+      // Ignore localStorage write error
+    }
+  };
+
+  // Conflict action 1: Use latest official defaultSchedule
+  const handleAcceptLatestOfficial = () => {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      // Ignore
+    }
+    setContainers(getContainersFromDays(defaultSchedule.days));
+    setIsDraft(false);
+    setHasVersionConflict(false);
+    setConflictDraft(null);
+  };
+
+  // Conflict action 2: Keep personal draft from older version
+  const handleKeepPersonalDraft = () => {
+    if (conflictDraft) {
+      setContainers(getContainersFromDays(conflictDraft.schedule));
+      setIsDraft(true);
+    }
+    setHasVersionConflict(false);
+  };
 
   // Modals & Dialog state
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -316,12 +420,8 @@ export const MyItinerary: React.FC = () => {
   // Copy current runtime schedule to clipboard
   const handleCopyConfig = async () => {
     const currentConfig: DefaultScheduleConfig = {
-      day1: (containers.find((d) => d.dayNumber === 1)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
-      day2: (containers.find((d) => d.dayNumber === 2)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
-      day3: (containers.find((d) => d.dayNumber === 3)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
-      day4: (containers.find((d) => d.dayNumber === 4)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
-      day5: (containers.find((d) => d.dayNumber === 5)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
-      day6: (containers.find((d) => d.dayNumber === 6)?.items || []).map((it) => ({ sourceKey: it.sourceKey, completed: !!it.completed })),
+      version: defaultSchedule.version,
+      days: serializeContainersToDays(containers)
     };
 
     const jsonStr = JSON.stringify(currentConfig, null, 2);
@@ -460,17 +560,16 @@ export const MyItinerary: React.FC = () => {
 
   // Toggle single item completion status
   const handleToggleItemComplete = (dayNumber: number, itemId: string) => {
-    setContainers((prev) =>
-      prev.map((day) => {
-        if (day.dayNumber !== dayNumber) return day;
-        return {
-          ...day,
-          items: day.items.map((it) =>
-            it.id === itemId ? { ...it, completed: !it.completed } : it
-          )
-        };
-      })
-    );
+    const updated = containers.map((day) => {
+      if (day.dayNumber !== dayNumber) return day;
+      return {
+        ...day,
+        items: day.items.map((it) =>
+          it.id === itemId ? { ...it, completed: !it.completed } : it
+        )
+      };
+    });
+    saveDraftChanges(updated);
   };
 
   // Open Swap Modal
@@ -488,27 +587,25 @@ export const MyItinerary: React.FC = () => {
     if (!sourceDayObj || !targetDayObj) return;
 
     const performSwap = () => {
-      setContainers((prev) => {
-        const next = [...prev];
-        const sIdx = next.findIndex((d) => d.dayNumber === sourceSwapDay);
-        const tIdx = next.findIndex((d) => d.dayNumber === targetDayNumber);
+      const next = [...containers];
+      const sIdx = next.findIndex((d) => d.dayNumber === sourceSwapDay);
+      const tIdx = next.findIndex((d) => d.dayNumber === targetDayNumber);
 
-        // Keep fixed items in their original day, only swap movable items
-        const sFixed = next[sIdx].items.filter((it) => it.isFixed);
-        const sMovable = next[sIdx].items.filter((it) => !it.isFixed);
-        const tFixed = next[tIdx].items.filter((it) => it.isFixed);
-        const tMovable = next[tIdx].items.filter((it) => !it.isFixed);
+      // Keep fixed items in their original day, only swap movable items
+      const sFixed = next[sIdx].items.filter((it) => it.isFixed);
+      const sMovable = next[sIdx].items.filter((it) => !it.isFixed);
+      const tFixed = next[tIdx].items.filter((it) => it.isFixed);
+      const tMovable = next[tIdx].items.filter((it) => !it.isFixed);
 
-        next[sIdx] = {
-          ...next[sIdx],
-          items: [...sFixed, ...tMovable]
-        };
-        next[tIdx] = {
-          ...next[tIdx],
-          items: [...tFixed, ...sMovable]
-        };
-        return next;
-      });
+      next[sIdx] = {
+        ...next[sIdx],
+        items: [...sFixed, ...tMovable]
+      };
+      next[tIdx] = {
+        ...next[tIdx],
+        items: [...tFixed, ...sMovable]
+      };
+      saveDraftChanges(next);
       setIsSwapModalOpen(false);
       setSourceSwapDay(null);
     };
@@ -557,13 +654,12 @@ export const MyItinerary: React.FC = () => {
         isFixed: poolItem.isFixed || false
       };
 
-      setContainers((prev) =>
-        prev.map((day) =>
-          day.dayNumber === targetAddDay
-            ? { ...day, items: [...day.items, newItem] }
-            : day
-        )
+      const updated = containers.map((day) =>
+        day.dayNumber === targetAddDay
+          ? { ...day, items: [...day.items, newItem] }
+          : day
       );
+      saveDraftChanges(updated);
       setIsAddModalOpen(false);
       setTargetAddDay(null);
     };
@@ -620,13 +716,12 @@ export const MyItinerary: React.FC = () => {
       confirmText: '確定移除',
       cancelText: '取消',
       onConfirm: () => {
-        setContainers((prev) =>
-          prev.map((day) =>
-            day.dayNumber === dayNumber
-              ? { ...day, items: day.items.filter((it) => it.id !== itemId) }
-              : day
-          )
+        const updated = containers.map((day) =>
+          day.dayNumber === dayNumber
+            ? { ...day, items: day.items.filter((it) => it.id !== itemId) }
+            : day
         );
+        saveDraftChanges(updated);
         setConfirmDialog((c) => ({ ...c, isOpen: false }));
         setOpenMenuId(null);
       }
@@ -638,11 +733,19 @@ export const MyItinerary: React.FC = () => {
     setConfirmDialog({
       isOpen: true,
       title: '恢復 6 天 5 夜預設行程',
-      message: '目前自行調整的草稿將會恢復為程式碼中的預設行程 (defaultSchedule)，確定繼續嗎？',
+      message: '目前自行調整的草稿將會被清除，並恢復為程式碼中的預設行程 (defaultSchedule)，確定繼續嗎？',
       confirmText: '恢復預設',
       cancelText: '取消',
       onConfirm: () => {
-        setContainers(getContainersFromSchedule(defaultSchedule));
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch {
+          // Ignore
+        }
+        setContainers(getContainersFromDays(defaultSchedule.days));
+        setIsDraft(false);
+        setHasVersionConflict(false);
+        setConflictDraft(null);
         setConfirmDialog((c) => ({ ...c, isOpen: false }));
       }
     });
@@ -706,6 +809,39 @@ export const MyItinerary: React.FC = () => {
 
   return (
     <div id="my-itinerary-page" className="space-y-6">
+      {/* Version Conflict Banner (Only shown when localStorage draft version differs from defaultSchedule) */}
+      {hasVersionConflict && (
+        <div id="alert-version-conflict" className="bg-amber-50 border border-amber-300/80 rounded-2xl p-4 sm:p-5 shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-start gap-3">
+              <AlertCircle className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+              <div>
+                <h3 className="text-sm font-bold text-amber-900">正式行程已有新版</h3>
+                <p className="text-xs text-amber-700 mt-0.5">
+                  程式碼中的正式行程已有更新版本，你目前瀏覽器中仍保存一份基於舊版本的個人未發布草稿。
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
+              <button
+                id="btn-accept-latest-official"
+                onClick={handleAcceptLatestOfficial}
+                className="px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-amber-600 hover:bg-amber-700 text-white transition-colors cursor-pointer shadow-sm"
+              >
+                使用最新正式行程
+              </button>
+              <button
+                id="btn-keep-personal-draft"
+                onClick={handleKeepPersonalDraft}
+                className="px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white hover:bg-amber-100/50 text-amber-800 border border-amber-300 transition-colors cursor-pointer"
+              >
+                保留我的草稿
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Top Banner & Control Bar */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200/80 p-5 sm:p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -714,9 +850,16 @@ export const MyItinerary: React.FC = () => {
               <span className="bg-blue-50 text-blue-700 text-xs px-2.5 py-0.5 rounded-full font-bold border border-blue-200 inline-flex items-center gap-1">
                 <Compass className="w-3.5 h-3.5" /> 自行編排
               </span>
-              <span className="text-xs text-slate-500 font-medium">
-                以 defaultSchedule 為正式來源・草稿可隨時複製設定
-              </span>
+              {/* Status Badge: Official vs Personal Draft */}
+              {isDraft ? (
+                <span id="badge-itinerary-status" className="bg-amber-50 text-amber-700 text-xs px-2.5 py-0.5 rounded-full font-semibold border border-amber-200 inline-flex items-center gap-1">
+                  <FileEdit className="w-3 h-3 text-amber-600" /> 個人草稿 · 尚未發布
+                </span>
+              ) : (
+                <span id="badge-itinerary-status" className="bg-emerald-50 text-emerald-700 text-xs px-2.5 py-0.5 rounded-full font-semibold border border-emerald-200 inline-flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-emerald-600" /> 正式行程
+                </span>
+              )}
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
               我的行程編排
@@ -731,7 +874,7 @@ export const MyItinerary: React.FC = () => {
               id="btn-copy-schedule"
               onClick={handleCopyConfig}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium text-blue-700 bg-blue-50 hover:bg-blue-100 transition-colors cursor-pointer border border-blue-200"
-              title="將目前草稿設定轉為 JSON 複製至剪貼簿"
+              title="將目前畫面行程設定轉為 JSON 複製至剪貼簿"
             >
               <Copy className="w-3.5 h-3.5" />
               <span>複製目前設定</span>
@@ -741,7 +884,7 @@ export const MyItinerary: React.FC = () => {
               id="btn-reset-itinerary"
               onClick={handleResetToDefault}
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium text-slate-600 bg-slate-100 hover:bg-slate-200 hover:text-slate-900 transition-colors cursor-pointer border border-gray-200"
-              title="將所有日期恢復為程式碼中的預設行程 (defaultSchedule)"
+              title="清除草稿並恢復為程式碼中的預設行程 (defaultSchedule)"
             >
               <RotateCcw className="w-3.5 h-3.5" />
               <span>恢復預設行程</span>
@@ -808,16 +951,8 @@ export const MyItinerary: React.FC = () => {
                   </span>
                 </div>
 
-                {/* Day Weather / Feature Hint */}
-                <div className="text-xs text-slate-400 mt-2 flex items-center justify-between">
-                  <span>
-                    {day.dayNumber === 1 && '市區・韓市場換匯'}
-                    {day.dayNumber === 2 && '巴拿山・高空纜車'}
-                    {day.dayNumber === 3 && '五行山・會安水燈'}
-                    {day.dayNumber === 4 && '山茶半島・龍橋秀'}
-                    {day.dayNumber === 5 && '順化皇城 / 度假 SPA'}
-                    {day.dayNumber === 6 && '占婆博物館・返台'}
-                  </span>
+                {/* Day Header Action */}
+                <div className="mt-2.5 flex items-center justify-end">
                   <button
                     id={`btn-swap-day-${day.dayNumber}`}
                     onClick={() => handleOpenSwap(day.dayNumber)}

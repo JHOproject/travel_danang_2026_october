@@ -163,11 +163,21 @@ export interface DayScheduleEntry {
   completed?: boolean;
 }
 
-export interface DefaultScheduleConfig {
+export interface DefaultScheduleDays {
   day1: DayScheduleEntry[];
   day2: DayScheduleEntry[];
   day3: DayScheduleEntry[];
   day4: DayScheduleEntry[];
   day5: DayScheduleEntry[];
   day6: DayScheduleEntry[];
+}
+
+export interface DefaultScheduleConfig {
+  version: number;
+  days: DefaultScheduleDays;
+}
+
+export interface LocalDraftStorage {
+  baseVersion: number;
+  schedule: DefaultScheduleDays;
 }
